@@ -30,7 +30,6 @@
             --text-mute: #6b6268;
             --accent: #ff6b35;
             --accent-2: #e63946;
-            --accent-3: #fbbf24;
             --green: #22c55e;
             --amber: #f59e0b;
         }
@@ -48,7 +47,6 @@
             padding: 24px 16px;
         }
 
-        /* ============ BACKGROUND — Fire theme ============ */
         .bg-grid {
             position: fixed; inset: 0;
             background-image:
@@ -103,7 +101,6 @@
             50%     { transform: translate(-50px,35px) scale(1.12); }
         }
 
-        /* ============ SHELL ============ */
         .shell {
             position: relative;
             z-index: 1;
@@ -114,7 +111,6 @@
             gap: 14px;
         }
 
-        /* ============ HEADER ============ */
         .header {
             display: flex;
             align-items: center;
@@ -161,12 +157,6 @@
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
             overflow: hidden;
-        }
-
-        .brand-logo-wrap img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            display: block;
         }
 
         .brand-logo-wrap i {
@@ -295,7 +285,6 @@
         }
         .sound-btn.muted { color: var(--text-mute); }
 
-        /* ============ SOCIAL DROPDOWN ============ */
         .social-dropdown {
             position: absolute;
             top: calc(100% + 10px);
@@ -392,7 +381,6 @@
             flex-shrink: 0;
         }
 
-        /* ============ CARD ============ */
         .card {
             position: relative;
             z-index: 1;
@@ -425,7 +413,6 @@
             z-index: 2;
         }
 
-        /* ============ PROGRESS ============ */
         .progress-wrap {
             padding: 18px 22px 0;
             display: flex; align-items: center; gap: 12px;
@@ -456,7 +443,6 @@
             min-width: 32px; text-align: right;
         }
 
-        /* ============ STEPS ============ */
         .steps-viewport { position: relative; overflow: hidden; width: 100%; }
 
         .steps-track {
@@ -471,7 +457,6 @@
             flex-shrink: 0;
         }
 
-        /* ============ STEP HEAD ============ */
         .step-head { text-align: center; margin-bottom: 22px; }
 
         .step-icon {
@@ -534,9 +519,6 @@
             max-width: 290px;
             margin-left: auto; margin-right: auto;
         }
-
-        /* ============ FIELD ============ */
-        .field-group { margin-bottom: 14px; }
 
         .field-label-row {
             display: flex; align-items: center; justify-content: space-between;
@@ -629,12 +611,11 @@
             gap: 6px;
             font-size: 12px;
             color: #fca5a5;
-            margin-top: 8px;
+            margin-top: 10px;
             padding-left: 4px;
         }
         .field-error.show { display: flex; }
 
-        /* ============ PROFILE CARD ============ */
         .profile-card {
             display: none;
             margin-top: 16px;
@@ -757,6 +738,12 @@
             filter: drop-shadow(0 0 10px rgba(255,107,53,0.7));
         }
 
+        .avatar-inner img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .avatar-check {
             position: absolute;
             bottom: -3px; right: -3px;
@@ -839,7 +826,6 @@
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* ============ CONTINUE BUTTON ============ */
         .btn-continue {
             display: none;
             position: relative;
@@ -882,7 +868,6 @@
 
         .btn-continue i { font-size: 13px; }
 
-        /* ============ AMOUNT GRID (Diamonds) ============ */
         .amount-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -1001,7 +986,6 @@
         }
         .amount.selected .unit { color: rgba(253,230,138,0.9); }
 
-        /* ============ BUTTONS ============ */
         .btn-primary {
             position: relative;
             width: 100%;
@@ -1136,7 +1120,6 @@
         .btn-back i { font-size: 11px; }
         .btn-back.hide { display: none; }
 
-        /* ============ TRUST ============ */
         .trust {
             display: flex; align-items: center; justify-content: center;
             gap: 18px;
@@ -1150,7 +1133,6 @@
         }
         .trust i { font-size: 10px; color: var(--accent); opacity: 0.9; }
 
-        /* ============ FOOTER ============ */
         .footer {
             text-align: center;
             font-size: 11px;
@@ -1160,7 +1142,6 @@
         }
         .footer i { margin-right: 4px; opacity: 0.7; }
 
-        /* ============ iOS NOTIFICATIONS ============ */
         .ios-stack {
             position: fixed;
             top: 18px;
@@ -1313,7 +1294,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* ============ RESPONSIVE ============ */
         @media (max-width: 360px) {
             .shell { max-width: 100%; }
             .step { padding: 18px 14px; }
@@ -1508,68 +1488,42 @@
                             <div class="step-icon">
                                 <i class="fa-solid fa-user-shield"></i>
                             </div>
-                            <h2 class="step-title">Account Details</h2>
-                            <p class="step-desc">Enter your Free Fire UID and account name to verify.</p>
+                            <h2 class="step-title">Find Your Account</h2>
+                            <p class="step-desc">Enter your Free Fire UID or account name to verify.</p>
                         </div>
 
-                        <!-- UID FIELD -->
+                        <!-- UNIFIED SEARCH FIELD -->
                         <div class="field-group">
                             <div class="field-label-row">
-                                <span class="field-label"><i class="fa-solid fa-hashtag"></i> Free Fire UID</span>
-                                <span class="field-counter" id="uidCounter">0 / 12</span>
+                                <span class="field-label"><i class="fa-solid fa-search"></i> UID or Account Name</span>
+                                <span class="field-counter" id="inputCounter">0 / 20</span>
                             </div>
 
-                            <div class="field" id="uidField">
-                                <span class="at"><i class="fa-solid fa-hashtag" style="font-size:13px;color:var(--text-mute)"></i></span>
+                            <div class="field" id="searchField">
+                                <span class="at"><i class="fa-solid fa-magnifying-glass" style="font-size:13px;color:var(--text-mute)"></i></span>
                                 <input
                                     type="text"
-                                    id="uidInput"
+                                    id="searchInput"
                                     autocomplete="off"
                                     spellcheck="false"
-                                    inputmode="numeric"
-                                    placeholder="Enter your UID"
-                                    minlength="8"
-                                    maxlength="12"
-                                    pattern="[0-9]+"
+                                    placeholder="Enter UID or name"
+                                    maxlength="20"
                                 />
                                 <i class="fa-solid fa-circle-check ok-icon"></i>
                             </div>
 
                             <div class="field-hint">
                                 <i class="fa-solid fa-circle-info"></i>
-                                <span>8–12 digits · Find it in-game: Profile → UID</span>
-                            </div>
-                        </div>
-
-                        <!-- NAME FIELD -->
-                        <div class="field-group">
-                            <div class="field-label-row">
-                                <span class="field-label"><i class="fa-solid fa-user"></i> Account Name</span>
-                                <span class="field-counter" id="nameCounter">0 / 20</span>
-                            </div>
-
-                            <div class="field" id="nameField">
-                                <span class="at"><i class="fa-solid fa-user" style="font-size:13px;color:var(--text-mute)"></i></span>
-                                <input
-                                    type="text"
-                                    id="nameInput"
-                                    autocomplete="off"
-                                    spellcheck="false"
-                                    placeholder="Your in-game name"
-                                    minlength="3"
-                                    maxlength="20"
-                                    pattern="[A-Za-z0-9_ ]+"
-                                />
-                                <i class="fa-solid fa-circle-check ok-icon"></i>
+                                <span>Enter 8–12 digit UID, or type your account name.</span>
                             </div>
                         </div>
 
                         <div class="field-error" id="formError">
                             <i class="fa-solid fa-circle-exclamation"></i>
-                            <span>Please check your details and try again.</span>
+                            <span>Please enter a valid UID or account name.</span>
                         </div>
 
-                        <!-- PROFILE CARD (hidden until verified) -->
+                        <!-- PROFILE CARD -->
                         <div class="profile-card" id="profileCard">
                             <div class="profile-banner">
                                 <span class="profile-banner-label">
@@ -1582,7 +1536,7 @@
 
                             <div class="profile-main">
                                 <div class="avatar-wrap">
-                                    <div class="avatar-inner">
+                                    <div class="avatar-inner" id="avatarInner">
                                         <i class="fa-solid fa-fire"></i>
                                     </div>
                                     <span class="avatar-check"><i class="fa-solid fa-check"></i></span>
@@ -1599,9 +1553,9 @@
                             <div class="profile-stats">
                                 <div class="profile-stat">
                                     <span class="profile-stat-label">
-                                        <i class="fa-solid fa-server"></i> Server
+                                        <i class="fa-solid fa-globe"></i> Region
                                     </span>
-                                    <span class="profile-stat-value" id="profileServer">—</span>
+                                    <span class="profile-stat-value" id="profileRegion">—</span>
                                 </div>
                                 <div class="profile-stat">
                                     <span class="profile-stat-label">
@@ -1615,7 +1569,7 @@
                         <!-- VERIFY BUTTON -->
                         <button class="btn-primary" id="verifyBtn">
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            <span id="verifyBtnText">Verify Account</span>
+                            <span id="verifyBtnText">Search Player</span>
                             <span class="btn-progress" id="verifyProgress"></span>
                         </button>
 
@@ -1675,7 +1629,6 @@
                             <span class="btn-progress" id="sendProgress"></span>
                         </button>
 
-                        <!-- ADBLUEMEDIA LOCKER TRIGGER -->
                         <button
                             type="button"
                             class="btn-external"
@@ -1717,55 +1670,30 @@
         (function () {
             "use strict";
 
-            /* ============ DATA ============ */
+            /* ============ NOTIFICATION DATA ============ */
             var users = [
                 {n:"James R.",c:"us"},{n:"Michael T.",c:"us"},{n:"Robert K.",c:"us"},
                 {n:"John M.",c:"us"},{n:"David S.",c:"us"},{n:"William H.",c:"us"},
-                {n:"Richard B.",c:"us"},{n:"Joseph L.",c:"us"},{n:"Thomas W.",c:"us"},
-                {n:"Christopher D.",c:"us"},{n:"Daniel P.",c:"us"},{n:"Matthew G.",c:"us"},
-                {n:"Anthony C.",c:"us"},{n:"Mark F.",c:"us"},{n:"Steven N.",c:"us"},
                 {n:"Kevin Z.",c:"us"},{n:"Brian Q.",c:"us"},{n:"Jason T.",c:"us"},
                 {n:"Ryan M.",c:"us"},{n:"Jacob S.",c:"us"},
-
                 {n:"Liam T.",c:"ca"},{n:"Noah B.",c:"ca"},{n:"Lucas M.",c:"ca"},
                 {n:"Ethan K.",c:"ca"},{n:"Mason R.",c:"ca"},{n:"Logan P.",c:"ca"},
-                {n:"Oliver S.",c:"ca"},{n:"Nathan W.",c:"ca"},{n:"Owen H.",c:"ca"},
-                {n:"Tyler G.",c:"ca"},
-
+                {n:"Oliver S.",c:"ca"},{n:"Nathan W.",c:"ca"},
                 {n:"Harry P.",c:"gb"},{n:"George W.",c:"gb"},{n:"Jack T.",c:"gb"},
-                {n:"Jacob S.",c:"gb"},{n:"Charlie B.",c:"gb"},{n:"Thomas H.",c:"gb"},
-                {n:"Oscar L.",c:"gb"},{n:"Henry D.",c:"gb"},{n:"Leo M.",c:"gb"},
-                {n:"Alfie K.",c:"gb"},
-
+                {n:"Charlie B.",c:"gb"},{n:"Thomas H.",c:"gb"},{n:"Oscar L.",c:"gb"},
                 {n:"Cooper M.",c:"au"},{n:"Hunter B.",c:"au"},{n:"Riley T.",c:"au"},
-                {n:"Lachlan S.",c:"au"},{n:"Jayden K.",c:"au"},{n:"Xavier R.",c:"au"},
-                {n:"Zane P.",c:"au"},{n:"Kai L.",c:"au"},{n:"Jesse D.",c:"au"},
-                {n:"Finn H.",c:"au"},
-
+                {n:"Lachlan S.",c:"au"},{n:"Jayden K.",c:"au"},
                 {n:"Lucas B.",c:"de"},{n:"Leon S.",c:"de"},{n:"Felix K.",c:"de"},
-                {n:"Max M.",c:"de"},{n:"Paul W.",c:"de"},
-
                 {n:"Lucas M.",c:"fr"},{n:"Hugo L.",c:"fr"},{n:"Louis G.",c:"fr"},
-                {n:"Jules P.",c:"fr"},{n:"Adam R.",c:"fr"},
-
-                {n:"Marco R.",c:"it"},{n:"Luca B.",c:"it"},{n:"Matteo F.",c:"it"},
-
-                {n:"Diego S.",c:"es"},{n:"Javier M.",c:"es"},{n:"Pablo G.",c:"es"},
-
+                {n:"Marco R.",c:"it"},{n:"Luca B.",c:"it"},
+                {n:"Diego S.",c:"es"},{n:"Javier M.",c:"es"},
                 {n:"Lucas A.",c:"br"},{n:"Gabriel S.",c:"br"},{n:"Pedro H.",c:"br"},
-
                 {n:"Hiroshi T.",c:"jp"},{n:"Yuki S.",c:"jp"},{n:"Ren K.",c:"jp"},
-
                 {n:"Min-jun K.",c:"kr"},{n:"Ji-ho P.",c:"kr"},
-
                 {n:"Ravi S.",c:"in"},{n:"Arjun P.",c:"in"},{n:"Karan M.",c:"in"},
-
                 {n:"Ahmed B.",c:"eg"},{n:"Youssef M.",c:"eg"},{n:"Omar K.",c:"eg"},
-
                 {n:"Mohamed A.",c:"ma"},{n:"Youssef E.",c:"ma"},{n:"Hamza R.",c:"ma"},
-
                 {n:"Abdullah S.",c:"sa"},{n:"Faisal M.",c:"sa"},{n:"Khalid A.",c:"sa"},
-
                 {n:"Ahmed K.",c:"ae"},{n:"Omar F.",c:"ae"}
             ];
 
@@ -1776,9 +1704,6 @@
                 2200,2200,
                 5600
             ];
-
-            var servers = ["SEA", "NA", "EU", "SA", "IN", "ME"];
-            var ranks = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Heroic", "Grandmaster"];
 
             function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 
@@ -1849,7 +1774,6 @@
                 document.removeEventListener("click", once);
             }, { once: true });
 
-            /* ============ SOUND TOGGLE ============ */
             var soundBtn = document.getElementById("soundBtn");
             var soundIcon = document.getElementById("soundIcon");
             var soundMuted = false;
@@ -1861,11 +1785,9 @@
                 if (soundMuted) {
                     soundIcon.className = "fa-solid fa-volume-xmark";
                     soundBtn.classList.add("muted");
-                    soundBtn.title = "Unmute notifications";
                 } else {
                     soundIcon.className = "fa-solid fa-volume-high";
                     soundBtn.classList.remove("muted");
-                    soundBtn.title = "Mute notifications";
                     Sound.click();
                 }
             });
@@ -1885,7 +1807,6 @@
             var countX  = document.getElementById("countX");
             var countTt = document.getElementById("countTt");
             var countIg = document.getElementById("countIg");
-
             var platformCounts = { fb: 218, x: 104, tt: 136, ig: 54 };
 
             function renderPlatformCounts() {
@@ -2028,12 +1949,9 @@
             }
 
             /* ============ DOM ============ */
-            var uidField = document.getElementById("uidField");
-            var uidInput = document.getElementById("uidInput");
-            var uidCounter = document.getElementById("uidCounter");
-            var nameField = document.getElementById("nameField");
-            var nameInput = document.getElementById("nameInput");
-            var nameCounter = document.getElementById("nameCounter");
+            var searchField = document.getElementById("searchField");
+            var searchInput = document.getElementById("searchInput");
+            var inputCounter = document.getElementById("inputCounter");
             var formError = document.getElementById("formError");
 
             var verifyBtn = document.getElementById("verifyBtn");
@@ -2044,7 +1962,7 @@
             var profileCard = document.getElementById("profileCard");
             var profileName = document.getElementById("profileName");
             var profileUid = document.getElementById("profileUid");
-            var profileServer = document.getElementById("profileServer");
+            var profileRegion = document.getElementById("profileRegion");
             var profileRank = document.getElementById("profileRank");
 
             var sendBtn = document.getElementById("sendBtn");
@@ -2058,134 +1976,140 @@
             var grid = document.getElementById("grid");
             var cards = grid.querySelectorAll(".amount");
             var selected = null;
+            var verifiedName = "";
 
             /* ============ VALIDATION ============ */
-            function validateUID(v) {
-                if (v.length === 0) return { ok: false, empty: true };
-                if (v.length < 8) return { ok: false, code: "too_short" };
-                if (v.length > 12) return { ok: false, code: "too_long" };
-                if (!/^[0-9]+$/.test(v)) return { ok: false, code: "chars" };
-                return { ok: true };
-            }
-
-            function validateName(v) {
+            function validateInput(v) {
                 if (v.length === 0) return { ok: false, empty: true };
                 if (v.length < 3) return { ok: false, code: "too_short" };
                 if (v.length > 20) return { ok: false, code: "too_long" };
+
+                // أرقام فقط = UID
+                if (/^[0-9]+$/.test(v)) {
+                    if (v.length < 8 || v.length > 12) return { ok: false, code: "uid_len" };
+                    return { ok: true, type: "uid" };
+                }
+
+                // نص = اسم حساب
                 if (!/^[A-Za-z0-9_ ]+$/.test(v)) return { ok: false, code: "chars" };
-                return { ok: true };
+                return { ok: true, type: "name" };
             }
 
             function updateUI() {
-                var uidVal = uidInput.value.trim();
-                var nameVal = nameInput.value.trim();
+                var v = searchInput.value.trim();
+                inputCounter.textContent = v.length + " / 20";
+                inputCounter.classList.remove("valid", "invalid");
 
-                uidCounter.textContent = uidVal.length + " / 12";
-                uidCounter.classList.remove("valid", "invalid");
-                var uidRes = validateUID(uidVal);
-                if (uidVal.length === 0) {
+                var res = validateInput(v);
+                if (v.length === 0) {
                     /* neutral */
-                } else if (uidRes.ok) {
-                    uidCounter.classList.add("valid");
+                } else if (res.ok) {
+                    inputCounter.classList.add("valid");
                 } else {
-                    uidCounter.classList.add("invalid");
+                    inputCounter.classList.add("invalid");
                 }
-                uidField.classList.toggle("valid", uidRes.ok);
-                uidField.classList.remove("invalid");
 
-                nameCounter.textContent = nameVal.length + " / 20";
-                nameCounter.classList.remove("valid", "invalid");
-                var nameRes = validateName(nameVal);
-                if (nameVal.length === 0) {
-                    /* neutral */
-                } else if (nameRes.ok) {
-                    nameCounter.classList.add("valid");
-                } else {
-                    nameCounter.classList.add("invalid");
-                }
-                nameField.classList.toggle("valid", nameRes.ok);
-                nameField.classList.remove("invalid");
-
+                searchField.classList.toggle("valid", res.ok);
+                searchField.classList.remove("invalid");
                 formError.classList.remove("show");
             }
 
-            uidInput.addEventListener("input", function () {
-                /* Only digits */
-                this.value = this.value.replace(/[^0-9]/g, "");
-                updateUI();
-            });
+            searchInput.addEventListener("input", updateUI);
 
-            nameInput.addEventListener("input", updateUI);
-
-            nameInput.addEventListener("keydown", function (e) {
+            searchInput.addEventListener("keydown", function (e) {
                 if (e.key === "Enter") verifyBtn.click();
             });
 
-            /* ============ STEP 1 → STEP 2 ============ */
+            /* ============ STEP 1 · VERIFY (REAL API) ============ */
             verifyBtn.addEventListener("click", function () {
-                var uidVal = uidInput.value.trim();
-                var nameVal = nameInput.value.trim();
+                var v = searchInput.value.trim();
+                var res = validateInput(v);
 
-                var uidRes = validateUID(uidVal);
-                var nameRes = validateName(nameVal);
-                var hasError = false;
-
-                if (!uidRes.ok) {
-                    uidField.classList.add("invalid");
-                    hasError = true;
-                }
-                if (!nameRes.ok) {
-                    nameField.classList.add("invalid");
-                    hasError = true;
-                }
-
-                if (hasError) {
-                    formError.querySelector("span").textContent = "Please enter a valid UID (8–12 digits) and account name (3–20 characters).";
+                if (!res.ok) {
+                    searchInput.focus();
+                    searchField.classList.add("invalid");
                     formError.classList.add("show");
-                    Sound.click();
+                    var errText = formError.querySelector("span");
+                    if (res.code === "uid_len") {
+                        errText.textContent = "UID must be 8–12 digits.";
+                    } else if (res.code === "too_short") {
+                        errText.textContent = "Please enter at least 3 characters.";
+                    } else if (res.code === "chars") {
+                        errText.textContent = "Only letters, numbers, and spaces are allowed.";
+                    } else {
+                        errText.textContent = "Please enter a valid UID or account name.";
+                    }
                     return;
                 }
 
                 verifyBtn.disabled = true;
                 verifyBtn.querySelector("i").className = "fa-solid fa-spinner fa-spin";
-                verifyBtnText.textContent = "Verifying…";
+                verifyBtnText.textContent = "Searching…";
                 formError.classList.remove("show");
+                profileCard.classList.remove("show");
+                continueBtn.classList.remove("show");
 
-                runStagedLoading({
-                    button: verifyBtn,
-                    textEl: verifyBtnText,
-                    progressEl: verifyProgress,
-                    steps: [
-                        { text: "Connecting to server…",     duration: 1000 },
-                        { text: "Verifying UID…",            duration: 1200 },
-                        { text: "Loading profile…",          duration: 800 }
-                    ],
-                    onComplete: function () {
-                        Sound.success();
-
-                        /* Populate profile card */
-                        profileName.textContent = nameVal;
-                        profileUid.textContent = "UID: " + uidVal;
-                        profileServer.textContent = pick(servers) + " · " + pick(servers);
-                        profileRank.textContent = pick(ranks);
-                        profileCard.classList.add("show");
-
-                        verifyBtn.querySelector("i").className = "fa-solid fa-circle-check";
-                        verifyBtnText.textContent = "Verified";
-
-                        setTimeout(function () {
-                            verifyBtn.classList.add("hidden");
-                            continueBtn.classList.add("show");
-                        }, 600);
+                fetch("/api/freefire-lookup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ query: v })
+                })
+                .then(function (response) {
+                    return response.json().then(function (data) {
+                        return { ok: response.ok, data: data };
+                    });
+                })
+                .then(function (result) {
+                    if (!result.ok) {
+                        throw new Error(result.data.error || "Player not found");
                     }
+
+                    Sound.success();
+
+                    /* Populate with real data */
+                    profileName.textContent = result.data.name || "Unknown";
+                    profileUid.textContent = "UID: " + result.data.id;
+                    profileRegion.textContent = result.data.region || "—";
+
+                    var rankText = "Unranked";
+                    if (result.data.rank) {
+                        rankText = result.data.rank;
+                        if (result.data.rankingPoints > 0) {
+                            rankText += " · " + result.data.rankingPoints + " RP";
+                        }
+                    }
+                    profileRank.textContent = rankText;
+
+                    /* Reveal profile */
+                    profileCard.classList.add("show");
+
+                    verifyBtn.querySelector("i").className = "fa-solid fa-circle-check";
+                    verifyBtnText.textContent = "Verified";
+
+                    setTimeout(function () {
+                        verifyBtn.classList.add("hidden");
+                        continueBtn.classList.add("show");
+                    }, 600);
+
+                    verifiedName = result.data.name;
+
+                })
+                .catch(function (error) {
+                    console.error("Verification error:", error);
+                    formError.querySelector("span").textContent = "Could not find that player. Please check and try again.";
+                    formError.classList.add("show");
+                    searchField.classList.add("invalid");
+
+                    verifyBtn.disabled = false;
+                    verifyBtn.querySelector("i").className = "fa-solid fa-magnifying-glass";
+                    verifyBtnText.textContent = "Search Player";
                 });
             });
 
             /* ============ CONTINUE → STEP 2 ============ */
             continueBtn.addEventListener("click", function () {
                 Sound.click();
-                var name = nameInput.value.trim();
-                step2Desc.textContent = "Hi " + name + " — choose the amount of Diamonds to receive.";
+                step2Desc.textContent = "Hi " + verifiedName + " — choose the amount of Diamonds to receive.";
                 goToStep(2);
             });
 
@@ -2261,4 +2185,4 @@
     </script>
 
 </body>
-  </html>
+</html>
