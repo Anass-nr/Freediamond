@@ -1,56 +1,71 @@
-// api/freefire-lookup.js
-import { fetchFreeFireAccountDetails } from 'mika-ffstalk';
+// api/freefire-lookup.js — DEBUG
+const mika = require('mika-ffstalk');
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS, GET');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
+
+  // GET: عرض دوال المكتبة للتشخيص
+  if (req.method === 'GET') {
+    var keys = Object.keys(mika);
+    var types = {};
+    keys.forEach(function(k) { types[k] = typeof mika[k]; });
+    return res.status(200).json({
+      debug: true,
+      libraryKeys: keys,
+      types: types
+    });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { query } = req.body || {};
+  const body = req.body || {};
+  const query = (body.query || '').toString().trim();
 
-  if (!query || typeof query !== 'string') {
-    return res.status(400).json({ error: 'UID is required' });
-  }
-
-  const clean = query.trim();
-
-  // المكتبة تدعم UID فقط (أرقام)
-  if (!/^[0-9]+$/.test(clean)) {
-    return res.status(400).json({ error: 'Please enter a valid numeric UID' });
+  if (!/^[0-9]{8,12}$/.test(query)) {
+    return res.status(400).json({ error: 'Invalid UID (8-12 digits)' });
   }
 
   try {
-    const data = await fetchFreeFireAccountDetails(clean);
+    var data;
+    var usedFn = '';
 
-    if (!data || !data.metadata) {
-      return res.status(404).json({ error: 'Player not found' });
+    if (typeof mika.fetchFreeFireAccountDetails === 'function') {
+      usedFn = 'fetchFreeFireAccountDetails';
+      data = await mika.fetchFreeFireAccountDetails(query);
+    } else if (typeof mika.default === 'function') {
+      usedFn = 'default';
+      data = await mika.default(query);
+    } else if (typeof mika.getPlayerInfo === 'function') {
+      usedFn = 'getPlayerInfo';
+      data = await mika.getPlayerInfo(query);
+    } else if (typeof mika.fetchPlayerProfile === 'function') {
+      usedFn = 'fetchPlayerProfile';
+      data = await mika.fetchPlayerProfile(query);
+    } else {
+      return res.status(500).json({
+        error: 'No known function',
+        libraryKeys: Object.keys(mika)
+      });
     }
 
     return res.status(200).json({
-      id: data.metadata.accountId,
-      name: data.metadata.nickname,
-      level: data.metadata.level,
-      region: data.metadata.region,
-      rank: data.metadata.rank,
-      lastLogin: data.metadata.lastLoginAt,
-      // روابط الصور الحقيقية
-      avatarUrl: data.assets.outfitImageUrl || null,
-      bannerUrl: data.assets.bannerImageUrl || null,
-      // بيانات إضافية
-      petName: data.pet ? data.pet.name : null,
-      creditScore: data.credit ? data.credit.score : null,
+      usedFunction: usedFn,
+      rawType: typeof data,
+      rawKeys: data && typeof data === 'object' ? Object.keys(data) : null,
+      rawResponse: data
     });
 
   } catch (error) {
-    console.error('Free Fire API error:', error.message);
-    if (error.message.includes('not found') || error.message.includes('404')) {
-      return res.status(404).json({ error: 'Player not found' });
-    }
-    return res.status(500).json({ error: 'Failed to fetch player data' });
+    return res.status(500).json({
+      error: 'Exception',
+      message: error.message,
+      stackTop: error.stack ? error.stack.split('\n').slice(0, 3).join(' | ') : null
+    });
   }
 }
