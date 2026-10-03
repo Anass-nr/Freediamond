@@ -2,7 +2,6 @@
 import { fetchFreeFireAccountDetails } from 'mika-ffstalk';
 
 export default async function handler(req, res) {
-  // إعدادات CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,14 +14,13 @@ export default async function handler(req, res) {
   const { query } = req.body || {};
 
   if (!query || typeof query !== 'string') {
-    return res.status(400).json({ error: 'UID or Account Name is required' });
+    return res.status(400).json({ error: 'UID is required' });
   }
 
   const clean = query.trim();
 
-  // التحقق من المدخل: إذا كان أرقاماً فقط، نعتبره UID
+  // المكتبة تدعم UID فقط (أرقام)
   if (!/^[0-9]+$/.test(clean)) {
-    // لا ندعم البحث بالاسم حالياً في هذا الـ SDK
     return res.status(400).json({ error: 'Please enter a valid numeric UID' });
   }
 
@@ -40,14 +38,16 @@ export default async function handler(req, res) {
       region: data.metadata.region,
       rank: data.metadata.rank,
       lastLogin: data.metadata.lastLoginAt,
-      // روابط الصور من مكتبة mika-ffstalk
+      // روابط الصور الحقيقية
       avatarUrl: data.assets.outfitImageUrl || null,
       bannerUrl: data.assets.bannerImageUrl || null,
+      // بيانات إضافية
+      petName: data.pet ? data.pet.name : null,
+      creditScore: data.credit ? data.credit.score : null,
     });
 
   } catch (error) {
     console.error('Free Fire API error:', error.message);
-    // رسائل خطأ أكثر دقة
     if (error.message.includes('not found') || error.message.includes('404')) {
       return res.status(404).json({ error: 'Player not found' });
     }
