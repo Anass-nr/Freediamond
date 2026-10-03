@@ -17,16 +17,19 @@ export default async function handler(req, res) {
   try {
     let uid = clean;
     let playerData = null;
+    
+    // نستخدم server=ind كوضع افتراضي، يمكنك تغييره لاحقاً إذا أردت
+    const SERVER = 'ind'; 
 
     // 1. إذا كان الإدخال أرقاماً (UID)، نستخدم واجهة بيانات اللاعب مباشرة
     if (/^[0-9]{8,12}$/.test(clean)) {
-      const url = `https://freefire-api-six.vercel.app/get_player_personal_show?server=sg&uid=${uid}`;
+      const url = `https://freefire-api-six.vercel.app/get_player_personal_show?server=${SERVER}&uid=${uid}`;
       const response = await fetch(url);
       playerData = await response.json();
     } 
     // 2. إذا كان الإدخال نصاً (اسم حساب)، نبحث أولاً عن الـ UID
     else {
-      const searchUrl = `https://freefire-api-six.vercel.app/get_search_account_by_keyword?server=sg&keyword=${encodeURIComponent(clean)}`;
+      const searchUrl = `https://freefire-api-six.vercel.app/get_search_account_by_keyword?server=${SERVER}&keyword=${encodeURIComponent(clean)}`;
       const searchResponse = await fetch(searchUrl);
       const searchResult = await searchResponse.json();
 
@@ -34,20 +37,20 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Player not found' });
       }
       
-      // نأخذ أول نتيجة (الاسم والـ UID)
       uid = searchResult.data[0].uid;
-      const playerUrl = `https://freefire-api-six.vercel.app/get_player_personal_show?server=sg&uid=${uid}`;
+      const playerUrl = `https://freefire-api-six.vercel.app/get_player_personal_show?server=${SERVER}&uid=${uid}`;
       const playerResponse = await fetch(playerUrl);
       playerData = await playerResponse.json();
     }
 
-    // التحقق من وجود البيانات
+    // التحقق من وجود البيانات في الاستجابة
     if (!playerData || !playerData.basicInfo || !playerData.basicInfo.nickname) {
-      return res.status(404).json({ error: 'Player not found' });
+      return res.status(404).json({ error: 'Player not found or data incomplete' });
     }
 
     const basic = playerData.basicInfo;
-    const region = basic.region || 'SG';
+    const profile = playerData.profileInfo || {};
+    const region = basic.region || 'IND';
     const regionLower = region.toLowerCase();
 
     // إرجاع البيانات بالهيكل المطلوب لصفحتك
@@ -56,7 +59,8 @@ export default async function handler(req, res) {
       name: basic.nickname,
       level: basic.level || 0,
       region: region,
-      rank: playerData.rankInfo ? (playerData.rankInfo.brRankName || 'Unranked') : 'Unranked',
+      rank: profile.rank || 'Unranked',
+      likes: profile.likes || 0,
       avatarUrl: `https://discordbot.freefirecommunity.com/outfit_image_api?uid=${uid}&region=${regionLower}`,
       bannerUrl: `https://discordbot.freefirecommunity.com/banner_image_api?uid=${uid}&region=${regionLower}`,
     });
