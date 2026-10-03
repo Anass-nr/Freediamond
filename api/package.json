@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "mika-ffstalk": "^1.0.0"
+    "@pure0cd/freefire-api": "^7.1.5"
   }
 }
