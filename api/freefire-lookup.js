@@ -1,46 +1,64 @@
 // api/freefire-lookup.js
-import { AuthService, PlayerService } from '@samir.oe70/freefire-api';
-
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { query } = req.body || {};
   const clean = (query || '').toString().trim();
 
-  if (!/^[0-9]{8,12}$/.test(clean)) {
-    return res.status(400).json({ error: 'Invalid UID (8-12 digits)' });
+  if (!clean) {
+    return res.status(400).json({ error: 'UID or Account Name is required' });
   }
 
   try {
-    // 1. إنشاء جلسة (Session) للمنطقة الافتراضية (مثلاً: SG - سنغافورة)
-    const session = await AuthService.loginForRegion('SG');
+    let uid = clean;
+    let playerData = null;
 
-    // 2. جلب ملف تعريف اللاعب باستخدام الجلسة والـ UID
-    const profile = await PlayerService.getProfile(session.serverUrl, session.token, clean);
+    // 1. إذا كان الإدخال أرقاماً (UID)، نستخدم واجهة بيانات اللاعب مباشرة
+    if (/^[0-9]{8,12}$/.test(clean)) {
+      const url = `https://freefire-api-six.vercel.app/get_player_personal_show?server=sg&uid=${uid}`;
+      const response = await fetch(url);
+      playerData = await response.json();
+    } 
+    // 2. إذا كان الإدخال نصاً (اسم حساب)، نبحث أولاً عن الـ UID
+    else {
+      const searchUrl = `https://freefire-api-six.vercel.app/get_search_account_by_keyword?server=sg&keyword=${encodeURIComponent(clean)}`;
+      const searchResponse = await fetch(searchUrl);
+      const searchResult = await searchResponse.json();
 
-    if (!profile || !profile.basicinfo) {
+      if (!searchResult || !searchResult.data || searchResult.data.length === 0) {
+        return res.status(404).json({ error: 'Player not found' });
+      }
+      
+      // نأخذ أول نتيجة (الاسم والـ UID)
+      uid = searchResult.data[0].uid;
+      const playerUrl = `https://freefire-api-six.vercel.app/get_player_personal_show?server=sg&uid=${uid}`;
+      const playerResponse = await fetch(playerUrl);
+      playerData = await playerResponse.json();
+    }
+
+    // التحقق من وجود البيانات
+    if (!playerData || !playerData.basicInfo || !playerData.basicInfo.nickname) {
       return res.status(404).json({ error: 'Player not found' });
     }
 
-    const region = profile.basicinfo.region || 'sg';
+    const basic = playerData.basicInfo;
+    const region = basic.region || 'SG';
     const regionLower = region.toLowerCase();
 
-    // 3. إرجاع البيانات مع روابط الصور
+    // إرجاع البيانات بالهيكل المطلوب لصفحتك
     return res.status(200).json({
-      id: profile.basicinfo.accountId || clean,
-      name: profile.basicinfo.nickname,
-      level: profile.basicinfo.level,
+      id: uid,
+      name: basic.nickname,
+      level: basic.level || 0,
       region: region,
-      rank: null, // يمكن جلبها لاحقاً إذا كانت المكتبة تدعمها
-      avatarUrl: `https://discordbot.freefirecommunity.com/outfit_image_api?uid=${clean}&region=${regionLower}`,
-      bannerUrl: `https://discordbot.freefirecommunity.com/banner_image_api?uid=${clean}&region=${regionLower}`,
+      rank: playerData.rankInfo ? (playerData.rankInfo.brRankName || 'Unranked') : 'Unranked',
+      avatarUrl: `https://discordbot.freefirecommunity.com/outfit_image_api?uid=${uid}&region=${regionLower}`,
+      bannerUrl: `https://discordbot.freefirecommunity.com/banner_image_api?uid=${uid}&region=${regionLower}`,
     });
 
   } catch (error) {
