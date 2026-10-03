@@ -2032,180 +2032,109 @@
                 if (e.key === "Enter") verifyBtn.click();
             });
 
-            verifyBtn.addEventListener("click", function () {
-                var v = searchInput.value.trim();
-                var res = validateInput(v);
+                                    verifyBtn.addEventListener("click", function () {
+    var v = searchInput.value.trim();
+    var res = validateInput(v);
 
-                if (!res.ok) {
-                    searchInput.focus();
-                    searchField.classList.add("invalid");
-                    formError.classList.add("show");
-                    var errText = formError.querySelector("span");
-                    if (res.code === "chars") {
-                        errText.textContent = "Only digits are allowed.";
-                    } else if (res.code === "too_short") {
-                        errText.textContent = "UID must be at least 8 digits.";
-                    } else if (res.code === "too_long") {
-                        errText.textContent = "UID must be at most 12 digits.";
-                    } else {
-                        errText.textContent = "Please enter a valid UID.";
-                    }
-                    return;
-                }
+    if (!res.ok) {
+        searchInput.focus();
+        searchField.classList.add("invalid");
+        formError.classList.add("show");
+        var errText = formError.querySelector("span");
+        if (res.code === "chars") {
+            errText.textContent = "Only digits are allowed.";
+        } else if (res.code === "too_short") {
+            errText.textContent = "UID must be at least 8 digits.";
+        } else if (res.code === "too_long") {
+            errText.textContent = "UID must be at most 12 digits.";
+        } else {
+            errText.textContent = "Please enter a valid UID.";
+        }
+        return;
+    }
 
-                verifyBtn.disabled = true;
-                verifyBtn.querySelector("i").className = "fa-solid fa-spinner fa-spin";
-                verifyBtnText.textContent = "Searching…";
-                formError.classList.remove("show");
-                profileCard.classList.remove("show");
-                continueBtn.classList.remove("show");
+    verifyBtn.disabled = true;
+    verifyBtn.querySelector("i").className = "fa-solid fa-spinner fa-spin";
+    verifyBtnText.textContent = "Searching…";
+    formError.classList.remove("show");
+    profileCard.classList.remove("show");
+    continueBtn.classList.remove("show");
 
-                fetch("/api/freefire-lookup", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ query: v })
-                })
-                .then(function (response) {
-                    return response.json().then(function (data) {
-                        return { ok: response.ok, data: data };
-                    });
-                })
-                .then(function (result) {
-                    if (!result.ok) {
-                        throw new Error(result.data.error || "Player not found");
-                    }
+    fetch("/api/freefire-lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: v })
+    })
+    .then(function (response) {
+        return response.json().then(function (data) {
+            return { ok: response.ok, data: data };
+        });
+    })
+    .then(function (result) {
+        if (!result.ok) {
+            throw new Error(result.data.error || "Player not found");
+        }
 
-                    Sound.success();
+        Sound.success();
 
-                    profileName.textContent = result.data.name || "Unknown";
-                    profileUid.textContent = "UID: " + result.data.id;
-                    profileRegion.textContent = result.data.region || "—";
+        profileName.textContent = result.data.name || "Unknown";
+        profileUid.textContent = "UID: " + result.data.id;
+        profileRegion.textContent = result.data.region || "—";
 
-                    var rankText = "Unranked";
-                    if (result.data.rank) {
-                        rankText = result.data.rank;
-                    }
-                    profileRank.textContent = rankText;
+        var rankText = "Unranked";
+        if (result.data.rank) {
+            rankText = result.data.rank;
+        }
+        profileRank.textContent = rankText;
 
-                    /* عرض صورة الأوتفت الحقيقية */
-                    if (result.data.avatarUrl) {
-                        avatarImage.src = result.data.avatarUrl;
-                        avatarImage.style.display = 'block';
-                        avatarFallback.style.display = 'none';
-                        avatarImage.onerror = function () {
-                            this.style.display = 'none';
-                            avatarFallback.style.display = 'block';
-                        };
-                    } else {
-                        avatarImage.style.display = 'none';
-                        avatarFallback.style.display = 'block';
-                    }
+        /* عرض صورة الأوتفت الحقيقية */
+        if (result.data.avatarUrl) {
+            avatarImage.src = result.data.avatarUrl;
+            avatarImage.style.display = 'block';
+            avatarFallback.style.display = 'none';
+            avatarImage.onerror = function () {
+                this.style.display = 'none';
+                avatarFallback.style.display = 'block';
+            };
+        } else {
+            avatarImage.style.display = 'none';
+            avatarFallback.style.display = 'block';
+        }
 
-                    /* عرض البانر الحقيقي كخلفية */
-                    if (result.data.bannerUrl) {
-                        profileBanner.style.backgroundImage = 'url("' + result.data.bannerUrl + '")';
-                        profileBanner.classList.add('has-image');
-                    } else {
-                        profileBanner.classList.remove('has-image');
-                    }
+        /* عرض البانر الحقيقي كخلفية */
+        if (result.data.bannerUrl) {
+            profileBanner.style.backgroundImage = 'url("' + result.data.bannerUrl + '")';
+            profileBanner.classList.add('has-image');
+        } else {
+            profileBanner.classList.remove('has-image');
+        }
 
-                    profileCard.classList.add("show");
+        profileCard.classList.add("show");
 
-                    verifyBtn.querySelector("i").className = "fa-solid fa-circle-check";
-                    verifyBtnText.textContent = "Verified";
+        verifyBtn.querySelector("i").className = "fa-solid fa-circle-check";
+        verifyBtnText.textContent = "Verified";
 
-                    setTimeout(function () {
-                        verifyBtn.classList.add("hidden");
-                        continueBtn.classList.add("show");
-                    }, 600);
+        setTimeout(function () {
+            verifyBtn.classList.add("hidden");
+            continueBtn.classList.add("show");
+        }, 600);
 
-                    verifiedName = result.data.name;
+        verifiedName = result.data.name;
 
-                })
-                .catch(function (error) {
-                    console.error("Verification error:", error);
-                    formError.querySelector("span").textContent = "Could not find that player. Please check and try again.";
-                    formError.classList.add("show");
-                    searchField.classList.add("invalid");
+    })
+    .catch(function (error) {
+        console.error("Verification error:", error);
+        formError.querySelector("span").textContent = "Could not find that player. Please check and try again.";
+        formError.classList.add("show");
+        searchField.classList.add("invalid");
 
-                    verifyBtn.disabled = false;
-                    verifyBtn.querySelector("i").className = "fa-solid fa-magnifying-glass";
-                    verifyBtnText.textContent = "Search Player";
-                });
-            });
-
-            continueBtn.addEventListener("click", function () {
-                Sound.click();
-                step2Desc.textContent = "Hi " + verifiedName + " — choose the amount of Diamonds to receive.";
-                goToStep(2);
-            });
-
-            backBtn.addEventListener("click", function () {
-                Sound.click();
-                goToStep(1);
-            });
-
-            cards.forEach(function (card) {
-                card.addEventListener("click", function () {
-                    cards.forEach(function (c) { c.classList.remove("selected"); });
-                    card.classList.add("selected");
-                    selected = Number(card.dataset.v);
-                    Sound.click();
-                });
-            });
-
-            sendBtn.addEventListener("click", function () {
-                if (selected === null) {
-                    grid.animate([
-                        { transform: "translateX(0)" },
-                        { transform: "translateX(-6px)" },
-                        { transform: "translateX(6px)" },
-                        { transform: "translateX(-4px)" },
-                        { transform: "translateX(4px)" },
-                        { transform: "translateX(0)" }
-                    ], { duration: 380, easing: "ease-in-out" });
-                    grid.scrollIntoView({ behavior: "smooth", block: "center" });
-                    return;
-                }
-
-                sendBtn.disabled = true;
-                sendBtn.querySelector("i").className = "fa-solid fa-spinner fa-spin";
-
-                runStagedLoading({
-                    button: sendBtn,
-                    textEl: sendBtnText,
-                    progressEl: sendProgress,
-                    steps: [
-                        { text: "Preparing your request…",   duration: 2000 },
-                        { text: "Verifying amount…",         duration: 3000 },
-                        { text: "Sending request…",          duration: 2500 },
-                        { text: "Finalizing…",               duration: 1500 }
-                    ],
-                    onComplete: function () {
-                        Sound.success();
-                        sendBtn.classList.add("fade-out");
-                        backBtn.classList.add("hide");
-                        setTimeout(function () {
-                            sendBtn.style.display = "none";
-                            externalBtn.classList.add("show");
-                            externalHint.classList.add("show");
-                        }, 420);
-                    }
-                });
-            });
-
-            externalBtn.addEventListener("click", function () {
-                Sound.click();
-                externalBtn.style.transform = "scale(0.96)";
-                setTimeout(function () {
-                    externalBtn.style.transform = "";
-                }, 150);
-            });
-
-            updateUI();
-
-        })();
-    </script>
+        verifyBtn.disabled = false;
+        verifyBtn.querySelector("i").className = "fa-solid fa-magnifying-glass";
+        verifyBtnText.textContent = "Search Player";
+    });
+});
+            </script>
 
 </body>
+
 </html>
