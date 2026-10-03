@@ -1,0 +1,8 @@
+{
+  "name": "freediamond-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@pure0cd/freefire-api": "^7.1.5"
+  }
+}
