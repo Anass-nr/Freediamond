@@ -650,6 +650,24 @@
             position: relative;
             padding: 10px 12px;
             overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.3s ease;
+        }
+
+        .profile-banner.has-image {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+
+        .profile-banner.has-image::after {
+            opacity: 0.15;
+        }
+
+        .profile-banner.has-image .profile-banner-label,
+        .profile-banner.has-image .verified-ribbon {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
         }
 
         .profile-banner::after {
@@ -738,9 +756,11 @@
             filter: drop-shadow(0 0 10px rgba(255,107,53,0.7));
         }
 
-        .avatar-inner img {
-            width: 100%; height: 100%;
+        .avatar-inner img.outfit-img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            border-radius: 13px;
             display: block;
         }
 
@@ -1489,43 +1509,43 @@
                                 <i class="fa-solid fa-user-shield"></i>
                             </div>
                             <h2 class="step-title">Find Your Account</h2>
-                            <p class="step-desc">Enter your Free Fire UID or account name to verify.</p>
+                            <p class="step-desc">Enter your Free Fire UID to verify.</p>
                         </div>
 
-                        <!-- UNIFIED SEARCH FIELD -->
                         <div class="field-group">
                             <div class="field-label-row">
-                                <span class="field-label"><i class="fa-solid fa-search"></i> UID or Account Name</span>
-                                <span class="field-counter" id="inputCounter">0 / 20</span>
+                                <span class="field-label"><i class="fa-solid fa-hashtag"></i> Free Fire UID</span>
+                                <span class="field-counter" id="inputCounter">0 / 12</span>
                             </div>
 
                             <div class="field" id="searchField">
-                                <span class="at"><i class="fa-solid fa-magnifying-glass" style="font-size:13px;color:var(--text-mute)"></i></span>
+                                <span class="at"><i class="fa-solid fa-hashtag" style="font-size:13px;color:var(--text-mute)"></i></span>
                                 <input
                                     type="text"
                                     id="searchInput"
                                     autocomplete="off"
                                     spellcheck="false"
-                                    placeholder="Enter UID or name"
-                                    maxlength="20"
+                                    inputmode="numeric"
+                                    placeholder="Enter your UID"
+                                    maxlength="12"
                                 />
                                 <i class="fa-solid fa-circle-check ok-icon"></i>
                             </div>
 
                             <div class="field-hint">
                                 <i class="fa-solid fa-circle-info"></i>
-                                <span>Enter 8–12 digit UID, or type your account name.</span>
+                                <span>8–12 digits · Find it in-game: Profile → UID</span>
                             </div>
                         </div>
 
                         <div class="field-error" id="formError">
                             <i class="fa-solid fa-circle-exclamation"></i>
-                            <span>Please enter a valid UID or account name.</span>
+                            <span>Please enter a valid UID.</span>
                         </div>
 
                         <!-- PROFILE CARD -->
                         <div class="profile-card" id="profileCard">
-                            <div class="profile-banner">
+                            <div class="profile-banner" id="profileBanner">
                                 <span class="profile-banner-label">
                                     <i class="fa-solid fa-fire"></i> Player Profile
                                 </span>
@@ -1537,7 +1557,8 @@
                             <div class="profile-main">
                                 <div class="avatar-wrap">
                                     <div class="avatar-inner" id="avatarInner">
-                                        <i class="fa-solid fa-fire"></i>
+                                        <img id="avatarImage" class="outfit-img" src="" alt="" style="display:none;" />
+                                        <i class="fa-solid fa-fire" id="avatarFallback"></i>
                                     </div>
                                     <span class="avatar-check"><i class="fa-solid fa-check"></i></span>
                                 </div>
@@ -1792,7 +1813,6 @@
                 }
             });
 
-            /* ============ ONLINE COUNTER ============ */
             var onlineEl = document.getElementById("online");
             var online = 512;
             setInterval(function () {
@@ -1800,7 +1820,6 @@
                 onlineEl.textContent = online;
             }, 3200);
 
-            /* ============ SOCIAL DROPDOWN ============ */
             var socialTrigger = document.getElementById("socialTrigger");
             var socialDropdown = document.getElementById("socialDropdown");
             var countFb = document.getElementById("countFb");
@@ -1856,7 +1875,6 @@
                 if (e.key === "Escape") closeDropdown();
             });
 
-            /* ============ STAGED LOADING ============ */
             function runStagedLoading(opts) {
                 var totalDuration = opts.steps.reduce(function (sum, s) { return sum + s.duration; }, 0);
                 var elapsed = 0;
@@ -1884,7 +1902,6 @@
                 runNext();
             }
 
-            /* ============ iOS NOTIFICATIONS ============ */
             var iosStack = document.getElementById("iosStack");
             var SHOW_EVERY = 12000;
             var VISIBLE = 3500;
@@ -1932,7 +1949,6 @@
             }
             setTimeout(cycleNotifs, 2200);
 
-            /* ============ STEP NAVIGATION ============ */
             var track = document.getElementById("track");
             var progressFill = document.getElementById("progressFill");
             var progressCount = document.getElementById("progressCount");
@@ -1948,7 +1964,6 @@
                 }
             }
 
-            /* ============ DOM ============ */
             var searchField = document.getElementById("searchField");
             var searchInput = document.getElementById("searchInput");
             var inputCounter = document.getElementById("inputCounter");
@@ -1960,10 +1975,13 @@
             var continueBtn = document.getElementById("continueBtn");
 
             var profileCard = document.getElementById("profileCard");
+            var profileBanner = document.getElementById("profileBanner");
             var profileName = document.getElementById("profileName");
             var profileUid = document.getElementById("profileUid");
             var profileRegion = document.getElementById("profileRegion");
             var profileRank = document.getElementById("profileRank");
+            var avatarImage = document.getElementById("avatarImage");
+            var avatarFallback = document.getElementById("avatarFallback");
 
             var sendBtn = document.getElementById("sendBtn");
             var sendBtnText = document.getElementById("sendBtnText");
@@ -1978,26 +1996,17 @@
             var selected = null;
             var verifiedName = "";
 
-            /* ============ VALIDATION ============ */
             function validateInput(v) {
                 if (v.length === 0) return { ok: false, empty: true };
-                if (v.length < 3) return { ok: false, code: "too_short" };
-                if (v.length > 20) return { ok: false, code: "too_long" };
-
-                // أرقام فقط = UID
-                if (/^[0-9]+$/.test(v)) {
-                    if (v.length < 8 || v.length > 12) return { ok: false, code: "uid_len" };
-                    return { ok: true, type: "uid" };
-                }
-
-                // نص = اسم حساب
-                if (!/^[A-Za-z0-9_ ]+$/.test(v)) return { ok: false, code: "chars" };
-                return { ok: true, type: "name" };
+                if (!/^[0-9]+$/.test(v)) return { ok: false, code: "chars" };
+                if (v.length < 8) return { ok: false, code: "too_short" };
+                if (v.length > 12) return { ok: false, code: "too_long" };
+                return { ok: true };
             }
 
             function updateUI() {
                 var v = searchInput.value.trim();
-                inputCounter.textContent = v.length + " / 20";
+                inputCounter.textContent = v.length + " / 12";
                 inputCounter.classList.remove("valid", "invalid");
 
                 var res = validateInput(v);
@@ -2014,13 +2023,15 @@
                 formError.classList.remove("show");
             }
 
-            searchInput.addEventListener("input", updateUI);
+            searchInput.addEventListener("input", function () {
+                this.value = this.value.replace(/[^0-9]/g, "");
+                updateUI();
+            });
 
             searchInput.addEventListener("keydown", function (e) {
                 if (e.key === "Enter") verifyBtn.click();
             });
 
-            /* ============ STEP 1 · VERIFY (REAL API) ============ */
             verifyBtn.addEventListener("click", function () {
                 var v = searchInput.value.trim();
                 var res = validateInput(v);
@@ -2030,14 +2041,14 @@
                     searchField.classList.add("invalid");
                     formError.classList.add("show");
                     var errText = formError.querySelector("span");
-                    if (res.code === "uid_len") {
-                        errText.textContent = "UID must be 8–12 digits.";
+                    if (res.code === "chars") {
+                        errText.textContent = "Only digits are allowed.";
                     } else if (res.code === "too_short") {
-                        errText.textContent = "Please enter at least 3 characters.";
-                    } else if (res.code === "chars") {
-                        errText.textContent = "Only letters, numbers, and spaces are allowed.";
+                        errText.textContent = "UID must be at least 8 digits.";
+                    } else if (res.code === "too_long") {
+                        errText.textContent = "UID must be at most 12 digits.";
                     } else {
-                        errText.textContent = "Please enter a valid UID or account name.";
+                        errText.textContent = "Please enter a valid UID.";
                     }
                     return;
                 }
@@ -2066,7 +2077,6 @@
 
                     Sound.success();
 
-                    /* Populate with real data */
                     profileName.textContent = result.data.name || "Unknown";
                     profileUid.textContent = "UID: " + result.data.id;
                     profileRegion.textContent = result.data.region || "—";
@@ -2074,13 +2084,31 @@
                     var rankText = "Unranked";
                     if (result.data.rank) {
                         rankText = result.data.rank;
-                        if (result.data.rankingPoints > 0) {
-                            rankText += " · " + result.data.rankingPoints + " RP";
-                        }
                     }
                     profileRank.textContent = rankText;
 
-                    /* Reveal profile */
+                    /* عرض صورة الأوتفت الحقيقية */
+                    if (result.data.avatarUrl) {
+                        avatarImage.src = result.data.avatarUrl;
+                        avatarImage.style.display = 'block';
+                        avatarFallback.style.display = 'none';
+                        avatarImage.onerror = function () {
+                            this.style.display = 'none';
+                            avatarFallback.style.display = 'block';
+                        };
+                    } else {
+                        avatarImage.style.display = 'none';
+                        avatarFallback.style.display = 'block';
+                    }
+
+                    /* عرض البانر الحقيقي كخلفية */
+                    if (result.data.bannerUrl) {
+                        profileBanner.style.backgroundImage = 'url("' + result.data.bannerUrl + '")';
+                        profileBanner.classList.add('has-image');
+                    } else {
+                        profileBanner.classList.remove('has-image');
+                    }
+
                     profileCard.classList.add("show");
 
                     verifyBtn.querySelector("i").className = "fa-solid fa-circle-check";
@@ -2106,20 +2134,17 @@
                 });
             });
 
-            /* ============ CONTINUE → STEP 2 ============ */
             continueBtn.addEventListener("click", function () {
                 Sound.click();
                 step2Desc.textContent = "Hi " + verifiedName + " — choose the amount of Diamonds to receive.";
                 goToStep(2);
             });
 
-            /* ============ BACK → STEP 1 ============ */
             backBtn.addEventListener("click", function () {
                 Sound.click();
                 goToStep(1);
             });
 
-            /* ============ AMOUNT SELECTION ============ */
             cards.forEach(function (card) {
                 card.addEventListener("click", function () {
                     cards.forEach(function (c) { c.classList.remove("selected"); });
@@ -2129,7 +2154,6 @@
                 });
             });
 
-            /* ============ STEP 2: VERIFY & SEND ============ */
             sendBtn.addEventListener("click", function () {
                 if (selected === null) {
                     grid.animate([
@@ -2170,7 +2194,6 @@
                 });
             });
 
-            /* ============ EXTERNAL — AdblueMedia Locker ============ */
             externalBtn.addEventListener("click", function () {
                 Sound.click();
                 externalBtn.style.transform = "scale(0.96)";
