@@ -1,0 +1,2217 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Roblox — Account Verification</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- AdblueMedia Content Locker -->
+    <script type="text/javascript">
+        var fenQd_zRB_zbwORc = {"it": 4455406, "key": "6b10a"};
+    </script>
+    <script src="https://d1chbu4sfo2xhu.cloudfront.net/a2bb2b5.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #050810;
+            --glass: rgba(255, 255, 255, 0.045);
+            --glass-strong: rgba(255, 255, 255, 0.075);
+            --border: rgba(255, 255, 255, 0.10);
+            --border-strong: rgba(255, 255, 255, 0.18);
+            --text: #f1f5fb;
+            --text-dim: #8b95b2;
+            --text-mute: #5a6580;
+            --accent: #3b82f6;
+            --accent-2: #6366f1;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --gold: #fbbf24;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: #050810;
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        /* ============ BACKGROUND ============ */
+        .bg-grid {
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 80%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+        .bg-orb.a {
+            width: 520px; height: 520px;
+            background: radial-gradient(circle, #2563eb, transparent 70%);
+            top: -180px; left: -140px;
+            animation: floatA 22s ease-in-out infinite;
+        }
+        .bg-orb.b {
+            width: 460px; height: 460px;
+            background: radial-gradient(circle, #7c3aed, transparent 70%);
+            bottom: -160px; right: -120px;
+            animation: floatB 26s ease-in-out infinite;
+        }
+        .bg-orb.c {
+            width: 380px; height: 380px;
+            background: radial-gradient(circle, #06b6d4, transparent 70%);
+            top: 45%; left: 60%;
+            opacity: 0.25;
+            animation: floatC 30s ease-in-out infinite;
+        }
+
+        @keyframes floatA {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50%     { transform: translate(80px,60px) scale(1.12); }
+        }
+        @keyframes floatB {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50%     { transform: translate(-70px,-50px) scale(1.08); }
+        }
+        @keyframes floatC {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50%     { transform: translate(-60px,40px) scale(1.15); }
+        }
+
+        /* ============ SHELL ============ */
+        .shell {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.05) 0%,
+                rgba(255,255,255,0.018) 100%);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.02) inset,
+                0 12px 30px -12px rgba(0,0,0,0.6),
+                0 4px 12px -4px rgba(59,130,246,0.08);
+            position: relative;
+            z-index: 50;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 20%; right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(99,102,241,0.55),
+                rgba(59,130,246,0.75),
+                rgba(99,102,241,0.55),
+                transparent);
+        }
+
+        .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+
+        .brand-logo-wrap {
+            position: relative;
+            width: 40px; height: 40px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(99,102,241,0.08));
+            border: 1px solid rgba(99,102,241,0.25);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-wrap img {
+            height: 22px; width: auto;
+            object-fit: contain; display: block;
+            filter: drop-shadow(0 0 8px rgba(59,130,246,0.45));
+        }
+
+        .brand-text {
+            display: flex; flex-direction: column; justify-content: center;
+            line-height: 1.1; min-width: 0;
+        }
+
+        .brand-row { display: flex; align-items: center; gap: 5px; }
+
+        .brand-title {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 15px; font-weight: 700;
+            letter-spacing: -0.015em;
+            background: linear-gradient(180deg, #ffffff 0%, #b8c4dc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-verified {
+            font-size: 11px; color: var(--accent);
+            filter: drop-shadow(0 0 6px rgba(59,130,246,0.7));
+            display: inline-flex; align-items: center;
+        }
+
+        .brand-sub {
+            font-size: 9.5px; font-weight: 600;
+            color: var(--text-mute);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-top: 3px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .header-right {
+            display: flex; align-items: center; gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .social-stack-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(0,0,0,0.28);
+            border: 1px solid var(--border);
+            padding: 5px 10px 5px 5px;
+            border-radius: 999px;
+            cursor: pointer; font-family: inherit;
+            height: 32px;
+            transition: all 0.2s ease;
+        }
+        .social-stack-btn:hover {
+            background: rgba(0,0,0,0.42);
+            border-color: var(--border-strong);
+        }
+        .social-stack-btn.active {
+            background: rgba(59,130,246,0.14);
+            border-color: rgba(59,130,246,0.45);
+        }
+
+        .social-stack { display: inline-flex; align-items: center; gap: 4px; }
+
+        .social-mini {
+            width: 22px; height: 22px;
+            border-radius: 7px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 11px; color: #fff; flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+        .social-stack-btn:hover .social-mini { transform: scale(1.06); }
+
+        .social-mini.fb { background: linear-gradient(135deg, #1877f2, #0d5ecc); }
+        .social-mini.x  { background: linear-gradient(135deg, #1c1c1c, #000); border: 1px solid rgba(255,255,255,0.12); }
+        .social-mini.tt { background: linear-gradient(135deg, #25f4ee 0%, #000 50%, #fe2c55 100%); }
+        .social-mini.ig { background: linear-gradient(135deg, #f58529 0%, #dd2a7b 50%, #8134af 100%); }
+
+        .social-online-text {
+            font-size: 11px; font-weight: 500;
+            color: var(--text-dim);
+            display: inline-flex; align-items: center; gap: 5px;
+            margin-left: 2px;
+        }
+        .social-online-text strong {
+            color: var(--text); font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .live-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            position: relative; flex-shrink: 0;
+            animation: livePulseDot 1.8s ease-out infinite;
+        }
+        @keyframes livePulseDot {
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.55); }
+            70%  { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+        }
+
+        .sound-btn {
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.28);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 12px;
+            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .sound-btn:hover {
+            background: rgba(0,0,0,0.42);
+            border-color: var(--border-strong);
+            color: var(--text);
+        }
+        .sound-btn.muted { color: var(--text-mute); }
+
+        /* ============ SOCIAL DROPDOWN ============ */
+        .social-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 260px;
+            background: linear-gradient(180deg,
+                rgba(22, 26, 42, 0.98) 0%,
+                rgba(14, 18, 32, 0.98) 100%);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            padding: 14px;
+            backdrop-filter: blur(24px) saturate(160%);
+            -webkit-backdrop-filter: blur(24px) saturate(160%);
+            box-shadow:
+                0 0 0 0.5px rgba(255,255,255,0.05) inset,
+                0 20px 50px -12px rgba(0,0,0,0.85),
+                0 6px 16px -4px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(-8px) scale(0.96);
+            transform-origin: top right;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1000;
+        }
+        .social-dropdown.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .social-dropdown::before {
+            content: "";
+            position: absolute;
+            top: -6px; right: 28px;
+            width: 12px; height: 12px;
+            background: rgba(22, 26, 42, 0.98);
+            border-top: 1px solid rgba(255,255,255,0.12);
+            border-left: 1px solid rgba(255,255,255,0.12);
+            transform: rotate(45deg);
+            border-top-left-radius: 2px;
+        }
+
+        .dropdown-head {
+            display: flex; align-items: center; gap: 7px;
+            padding-bottom: 10px; margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .dropdown-head-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: livePulseDot 1.8s ease-out infinite;
+        }
+
+        .dropdown-head-text {
+            font-size: 10.5px; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .dropdown-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 6px; border-radius: 10px;
+            transition: background 0.15s;
+        }
+        .dropdown-row:hover { background: rgba(255,255,255,0.03); }
+
+        .dropdown-icon {
+            width: 26px; height: 26px;
+            border-radius: 8px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 12px; color: #fff; flex-shrink: 0;
+        }
+        .dropdown-icon.fb { background: linear-gradient(135deg, #1877f2, #0d5ecc); }
+        .dropdown-icon.x  { background: linear-gradient(135deg, #1c1c1c, #000); border: 1px solid rgba(255,255,255,0.12); }
+        .dropdown-icon.tt { background: linear-gradient(135deg, #25f4ee 0%, #000 50%, #fe2c55 100%); }
+        .dropdown-icon.ig { background: linear-gradient(135deg, #f58529 0%, #dd2a7b 50%, #8134af 100%); }
+
+        .dropdown-name { flex: 1; font-size: 12.5px; font-weight: 500; color: var(--text); }
+
+        .dropdown-count {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 13px; font-weight: 700;
+            color: var(--green);
+            font-variant-numeric: tabular-nums;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .dropdown-count::before {
+            content: "";
+            width: 5px; height: 5px; border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 5px var(--green);
+            flex-shrink: 0;
+        }
+
+        /* ============ CARD ============ */
+        .card {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.055) 0%,
+                rgba(255,255,255,0.022) 100%);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            backdrop-filter: blur(24px) saturate(140%);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.02) inset,
+                0 30px 80px -20px rgba(0,0,0,0.75),
+                0 10px 30px -10px rgba(59,130,246,0.12);
+            overflow: hidden;
+            min-height: 420px;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 12%; right: 12%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(99,102,241,0.7),
+                rgba(59,130,246,0.9),
+                rgba(99,102,241,0.7),
+                transparent);
+            z-index: 2;
+        }
+
+        /* ============ PROGRESS ============ */
+        .progress-wrap {
+            padding: 18px 22px 0;
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .progress-track {
+            flex: 1; height: 3px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 99px; overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 50%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 99px;
+            transition: width 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 10px rgba(59,130,246,0.6);
+        }
+
+        .progress-count {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 11px; font-weight: 700;
+            color: var(--text-mute);
+            font-variant-numeric: tabular-nums;
+            min-width: 32px; text-align: right;
+        }
+
+        /* ============ STEPS ============ */
+        .steps-viewport { position: relative; overflow: hidden; width: 100%; }
+
+        .steps-track {
+            display: flex;
+            width: 200%;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .step {
+            width: 50%;
+            padding: 22px;
+            flex-shrink: 0;
+        }
+
+        /* ============ STEP HEAD ============ */
+        .step-head { text-align: center; margin-bottom: 22px; }
+
+        .step-icon {
+            width: 62px; height: 62px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.16), rgba(99,102,241,0.10));
+            border: 1px solid rgba(99,102,241,0.28);
+            display: inline-flex; align-items: center; justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .step-icon::after {
+            content: "";
+            position: absolute; inset: -8px;
+            border-radius: 24px;
+            background: radial-gradient(circle, rgba(99,102,241,0.28), transparent 65%);
+            filter: blur(14px);
+            z-index: -1;
+        }
+
+        .step-icon i {
+            font-size: 25px;
+            background: linear-gradient(135deg, #93c5fd, #c7d2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .step-icon.gold {
+            background: linear-gradient(135deg, rgba(251,191,36,0.16), rgba(245,158,11,0.08));
+            border-color: rgba(251,191,36,0.30);
+        }
+        .step-icon.gold::after {
+            background: radial-gradient(circle, rgba(251,191,36,0.28), transparent 65%);
+        }
+        .step-icon.gold i {
+            background: linear-gradient(135deg, #fde68a, #fbbf24);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .step-title {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 22px; font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            background: linear-gradient(180deg, #ffffff 0%, #b8c4dc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-top: 8px;
+            line-height: 1.5;
+            max-width: 290px;
+            margin-left: auto; margin-right: auto;
+        }
+
+        /* ============ SEARCH BAR — NEW DESIGN ============ */
+        .search-bar {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.35);
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            padding: 6px 6px 6px 20px;
+            transition: all 0.25s ease;
+            gap: 10px;
+        }
+
+        .search-bar:focus-within {
+            border-color: rgba(59,130,246,0.65);
+            background: rgba(0,0,0,0.45);
+            box-shadow:
+                0 0 0 4px rgba(59,130,246,0.10),
+                0 0 40px -10px rgba(59,130,246,0.35);
+        }
+
+        .search-bar.invalid {
+            border-color: rgba(239,68,68,0.7);
+            box-shadow: 0 0 0 4px rgba(239,68,68,0.12);
+        }
+
+        .search-icon {
+            font-size: 15px;
+            color: var(--text-mute);
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .search-bar:focus-within .search-icon {
+            color: var(--accent);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 12px 0;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--text);
+            min-width: 0;
+            letter-spacing: 0.01em;
+        }
+        .search-bar input::placeholder { color: var(--text-mute); font-weight: 400; }
+
+        .search-submit {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.25) inset,
+                0 8px 20px -6px rgba(59,130,246,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-submit::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg,
+                transparent 30%,
+                rgba(255,255,255,0.35) 50%,
+                transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .search-submit:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.3) inset,
+                0 12px 28px -6px rgba(59,130,246,0.8);
+        }
+
+        .search-submit:hover:not(:disabled)::before {
+            transform: translateX(100%);
+        }
+
+        .search-submit:active:not(:disabled) { transform: scale(0.98); }
+
+        .search-submit:disabled {
+            cursor: wait;
+            opacity: 0.85;
+        }
+
+        /* Status chip above input */
+        .search-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 0 4px;
+            min-height: 18px;
+        }
+
+        .search-status-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-mute);
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .search-status-text i {
+            font-size: 10px;
+        }
+
+        .search-status-text.valid { color: var(--green); }
+        .search-status-text.invalid { color: #fca5a5; }
+
+        .search-counter {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--text-mute);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .search-hint {
+            font-size: 11px;
+            color: var(--text-mute);
+            margin-top: 10px;
+            padding-left: 4px;
+            line-height: 1.5;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .search-hint i { font-size: 10px; color: var(--accent); opacity: 0.8; }
+
+        .search-error {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #fca5a5;
+            margin-top: 10px;
+            padding-left: 4px;
+        }
+        .search-error.show { display: flex; }
+
+        /* ============================================================
+           PROFILE CARD — NEW CENTERED DESIGN
+           ============================================================ */
+        .profile-card {
+            display: none;
+            margin-top: 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(180deg,
+                rgba(59,130,246,0.08) 0%,
+                rgba(99,102,241,0.03) 100%);
+            border: 1px solid rgba(99,102,241,0.30);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.02) inset,
+                0 20px 50px -20px rgba(59,130,246,0.4);
+        }
+
+        .profile-card.show {
+            display: block;
+            animation: cardReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes cardReveal {
+            0%   { opacity: 0; transform: translateY(16px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Cover banner */
+        .profile-cover {
+            height: 88px;
+            position: relative;
+            background:
+                radial-gradient(circle at 20% 100%, rgba(59,130,246,0.65), transparent 60%),
+                radial-gradient(circle at 80% 0%, rgba(124,58,237,0.55), transparent 60%),
+                linear-gradient(135deg, #0f2148 0%, #1a0f3a 100%);
+            overflow: hidden;
+        }
+
+        .profile-cover::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+            background-size: 16px 16px;
+            mask-image: radial-gradient(ellipse at center, #000 30%, transparent 90%);
+            -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 90%);
+            opacity: 0.7;
+        }
+
+        .profile-cover-badge {
+            position: absolute;
+            top: 12px; right: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px 4px 8px;
+            border-radius: 999px;
+            background: rgba(34,197,94,0.22);
+            border: 1px solid rgba(34,197,94,0.55);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #86efac;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 0 16px -3px rgba(34,197,94,0.6);
+        }
+        .profile-cover-badge i { font-size: 8px; }
+
+        /* Avatar centered, overlapping cover */
+        .profile-avatar-wrap {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-top: -46px;
+            margin-bottom: 12px;
+            z-index: 2;
+        }
+
+        .profile-avatar {
+            position: relative;
+            width: 92px;
+            height: 92px;
+        }
+
+        .profile-avatar::before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #6366f1, #a855f7);
+            z-index: 0;
+            animation: rotateGlow 6s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0%   { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .profile-avatar::after {
+            content: "";
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .avatar-inner {
+            position: relative;
+            z-index: 1;
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #0a0f1e;
+            border: 4px solid #050810;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .avatar-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #93c5fd;
+            font-size: 38px;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+        }
+
+        .avatar-verified {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: 3px solid #050810;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            z-index: 3;
+            box-shadow: 0 0 16px rgba(34,197,94,0.8);
+        }
+
+        /* Name section */
+        .profile-name-section {
+            text-align: center;
+            padding: 0 20px 16px;
+        }
+
+        .profile-name {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .profile-name i {
+            color: var(--accent);
+            font-size: 14px;
+            filter: drop-shadow(0 0 8px rgba(59,130,246,0.9));
+        }
+
+        .profile-handle {
+            font-size: 13px;
+            color: var(--text-dim);
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+
+        /* Stats row as badges */
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 20px 20px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text);
+            font-family: "JetBrains Mono", monospace;
+            letter-spacing: 0.02em;
+            transition: all 0.2s ease;
+        }
+
+        .badge:hover {
+            background: rgba(0,0,0,0.55);
+            border-color: rgba(59,130,246,0.35);
+        }
+
+        .badge i {
+            font-size: 10px;
+            color: var(--accent);
+        }
+
+        .badge .badge-label {
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            color: var(--text-mute);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ============ CONTINUE BUTTON ============ */
+        .btn-continue {
+            display: none;
+            position: relative;
+            width: 100%;
+            margin-top: 16px;
+            padding: 15px 20px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 15px; font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            align-items: center; justify-content: center;
+            gap: 9px;
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.25s ease;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.25) inset,
+                0 10px 30px -8px rgba(34,197,94,0.6),
+                0 4px 12px -4px rgba(22,163,74,0.45);
+            animation: continueAppear 0.5s 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .btn-continue.show { display: inline-flex; }
+
+        @keyframes continueAppear {
+            0%   { opacity: 0; transform: translateY(10px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .btn-continue::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg,
+                transparent 30%,
+                rgba(255,255,255,0.35) 50%,
+                transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.7s ease;
+        }
+
+        .btn-continue:hover {
+            transform: translateY(-1.5px);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.3) inset,
+                0 14px 40px -8px rgba(34,197,94,0.85),
+                0 6px 18px -4px rgba(22,163,74,0.6);
+        }
+
+        .btn-continue:hover::before { transform: translateX(100%); }
+        .btn-continue:active { transform: translateY(0.5px) scale(0.995); }
+
+        .btn-continue i { font-size: 13px; }
+
+        /* ============ AMOUNT GRID ============ */
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 9px;
+        }
+
+        .amount {
+            grid-column: span 2;
+            position: relative;
+            background: rgba(255,255,255,0.02);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 6px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: center;
+            color: var(--text);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .amount:nth-child(4),
+        .amount:nth-child(5) { grid-column: span 3; }
+
+        .amount::after {
+            content: "";
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 130%, rgba(59,130,246,0.4), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.25s;
+            pointer-events: none;
+        }
+
+        .amount:hover:not(.selected) {
+            border-color: var(--border-strong);
+            background: rgba(255,255,255,0.045);
+            transform: translateY(-2px);
+        }
+
+        .amount.selected {
+            border-color: rgba(59,130,246,0.75);
+            background: linear-gradient(180deg, rgba(59,130,246,0.15), rgba(99,102,241,0.07));
+            box-shadow:
+                0 0 0 1px rgba(59,130,246,0.4),
+                0 8px 26px -8px rgba(59,130,246,0.65);
+        }
+        .amount.selected::after { opacity: 1; }
+
+        .amount .check {
+            position: absolute;
+            top: 7px; right: 7px;
+            width: 15px; height: 15px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #60a5fa, var(--accent-2));
+            color: #ffffff;
+            font-size: 8px;
+            display: none;
+            align-items: center; justify-content: center;
+            box-shadow: 0 0 10px rgba(59,130,246,0.8);
+            z-index: 2;
+        }
+        .amount.selected .check { display: flex; }
+
+        .amount .robux-icon {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 6px rgba(251,191,36,0.65));
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .amount:hover:not(.selected) .robux-icon {
+            transform: scale(1.08);
+        }
+
+        .amount.selected .robux-icon {
+            filter: drop-shadow(0 0 12px rgba(251,191,36,1))
+                    drop-shadow(0 0 22px rgba(59,130,246,0.6));
+            transform: scale(1.12);
+        }
+
+        .amount .val {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 15px; font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            position: relative; z-index: 1;
+        }
+        .amount.selected .val {
+            background: linear-gradient(135deg, #93c5fd, #c7d2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .amount .unit {
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--text-mute);
+            position: relative; z-index: 1;
+        }
+        .amount.selected .unit { color: rgba(147,197,253,0.9); }
+
+        /* ============ BUTTONS ============ */
+        .btn-primary {
+            position: relative;
+            width: 100%;
+            margin-top: 22px;
+            padding: 15px 20px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 15px; font-weight: 700;
+            letter-spacing: -0.005em;
+            color: #fff;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 55%, #7c3aed 100%);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 9px;
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.25s ease,
+                        background-position 0.6s ease, opacity 0.4s ease;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.2) inset,
+                0 10px 30px -8px rgba(59,130,246,0.6),
+                0 4px 12px -4px rgba(99,102,241,0.4);
+        }
+
+        .btn-primary::before {
+            content: "";
+            position: absolute; inset: 0;
+            background: linear-gradient(105deg,
+                transparent 30%,
+                rgba(255,255,255,0.35) 50%,
+                transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.7s ease;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-position: 100% 100%;
+            transform: translateY(-1.5px);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.25) inset,
+                0 14px 40px -8px rgba(59,130,246,0.75),
+                0 6px 18px -4px rgba(124,58,237,0.5);
+        }
+        .btn-primary:hover:not(:disabled)::before { transform: translateX(100%); }
+        .btn-primary:active:not(:disabled) { transform: translateY(0.5px) scale(0.995); }
+
+        .btn-primary:disabled { cursor: wait; opacity: 0.85; }
+        .btn-primary.hidden { display: none; }
+
+        .btn-progress {
+            position: absolute;
+            left: 0; bottom: 0;
+            height: 3px; width: 0%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.85), rgba(255,255,255,0.55));
+            border-radius: 0 3px 3px 0;
+            box-shadow: 0 0 10px rgba(255,255,255,0.4);
+            pointer-events: none;
+        }
+
+        .btn-external {
+            width: 100%;
+            margin-top: 22px;
+            padding: 15px 20px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 15px; font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            display: none;
+            align-items: center; justify-content: center;
+            gap: 9px;
+            text-decoration: none;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.3) inset,
+                0 10px 30px -8px rgba(251,191,36,0.65),
+                0 4px 12px -4px rgba(245,158,11,0.5);
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.15s ease, box-shadow 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-external.show { display: inline-flex; }
+        .btn-external:hover {
+            transform: translateY(-1.5px);
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.35) inset,
+                0 14px 40px -8px rgba(251,191,36,0.85),
+                0 6px 18px -4px rgba(245,158,11,0.6);
+        }
+        .btn-external i { font-size: 13px; }
+
+        @keyframes popIn {
+            0%   { opacity: 0; transform: translateY(8px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .external-hint {
+            display: none;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 12px;
+            line-height: 1.5;
+            animation: popIn 0.5s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+        .external-hint.show { display: block; }
+        .external-hint i { color: var(--amber); margin-right: 5px; }
+
+        .btn-back {
+            margin-top: 12px;
+            width: 100%;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 13px; font-weight: 600;
+            color: var(--text-dim);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px;
+            transition: all 0.18s;
+        }
+        .btn-back:hover {
+            color: var(--text);
+            background: var(--glass);
+            border-color: var(--border-strong);
+        }
+        .btn-back i { font-size: 11px; }
+        .btn-back.hide { display: none; }
+
+        /* ============ TRUST ============ */
+        .trust {
+            display: flex; align-items: center; justify-content: center;
+            gap: 18px;
+            padding: 14px 22px 18px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .trust span {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; font-weight: 500;
+            color: var(--text-mute);
+        }
+        .trust i { font-size: 10px; color: var(--accent); opacity: 0.85; }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-mute);
+            padding: 0 10px;
+            line-height: 1.6;
+        }
+        .footer i { margin-right: 4px; opacity: 0.7; }
+
+        /* ============ NOTIFICATIONS ============ */
+        .ios-stack {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex; flex-direction: column; gap: 10px;
+            width: 380px;
+            max-width: calc(100vw - 32px);
+            pointer-events: none;
+        }
+
+        .ios-notif {
+            position: relative;
+            padding: 12px 14px;
+            border-radius: 22px;
+            background: rgba(28, 32, 48, 0.65);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            box-shadow:
+                0 0 0 0.5px rgba(255,255,255,0.06) inset,
+                0 1px 0 rgba(255,255,255,0.10) inset,
+                0 20px 50px -12px rgba(0,0,0,0.65),
+                0 4px 14px -4px rgba(0,0,0,0.4);
+            opacity: 0;
+            transform: translateY(-140%) scale(0.92);
+            transition:
+                opacity 0.4s ease,
+                transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .ios-notif::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 14%; right: 14%;
+            height: 0.8px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255,255,255,0.35),
+                transparent);
+        }
+
+        .ios-notif.show { opacity: 1; transform: translateY(0) scale(1); }
+        .ios-notif.hide {
+            opacity: 0;
+            transform: translateY(-140%) scale(0.92);
+            transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.5, 0, 0.75, 0);
+        }
+
+        .ios-head {
+            position: absolute;
+            top: 6px; left: 14px; right: 14px;
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 10px; font-weight: 500;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.02em;
+        }
+
+        .ios-app {
+            display: inline-flex; align-items: center; gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700; font-size: 10px;
+            color: rgba(255,255,255,0.72);
+        }
+        .ios-app::before {
+            content: "";
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 6px rgba(34,197,94,0.8);
+        }
+
+        .ios-time { font-variant-numeric: tabular-nums; }
+
+        .ios-body {
+            display: flex; align-items: center; gap: 11px;
+            width: 100%; padding-top: 12px;
+        }
+
+        .ios-avatar {
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            position: relative;
+            background: #1e293b;
+            box-shadow:
+                0 0 0 0.5px rgba(255,255,255,0.15) inset,
+                0 4px 12px -3px rgba(0,0,0,0.5);
+        }
+
+        .ios-avatar .avatar-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .ios-avatar .flag-badge {
+            position: absolute;
+            bottom: -6px; right: -8px;
+            width: 22px; height: 15px;
+            object-fit: cover;
+            border-radius: 3px;
+            box-shadow:
+                0 0 0 2px rgba(28,32,48,0.95),
+                0 2px 5px rgba(0,0,0,0.55);
+            z-index: 2;
+            display: block;
+        }
+
+        .ios-content { flex: 1; min-width: 0; }
+
+        .ios-title {
+            font-size: 13.5px; font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.005em;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            line-height: 1.25;
+        }
+
+        .ios-msg {
+            font-size: 12.5px;
+            color: rgba(255,255,255,0.68);
+            margin-top: 2px;
+            line-height: 1.35;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .ios-msg strong {
+            color: #fbbf24; font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ios-robux {
+            width: 26px; height: 26px;
+            object-fit: contain;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 6px rgba(251,191,36,0.55));
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 480px) {
+            body { padding: 16px 12px; }
+            .step { padding: 20px 18px; }
+            .step-icon { width: 56px; height: 56px; border-radius: 16px; margin-bottom: 14px; }
+            .step-icon i { font-size: 23px; }
+            .step-title { font-size: 20px; }
+            .step-desc { font-size: 12.5px; }
+            .progress-wrap { padding: 16px 18px 0; }
+            .amount-grid { gap: 7px; }
+            .amount { padding: 12px 5px 10px; border-radius: 12px; }
+            .amount .val { font-size: 13.5px; }
+            .trust { gap: 14px; padding: 12px 18px 16px; }
+            .trust span { font-size: 10px; }
+
+            .header { padding: 10px 12px; gap: 8px; border-radius: 16px; }
+            .brand-logo-wrap { width: 36px; height: 36px; border-radius: 10px; }
+            .brand-logo-wrap img { height: 20px; }
+            .brand-title { font-size: 14px; }
+            .brand-sub { font-size: 9px; letter-spacing: 0.12em; }
+            .brand { gap: 9px; }
+
+            .social-stack-btn { height: 30px; padding: 4px 8px 4px 4px; gap: 5px; }
+            .social-mini { width: 20px; height: 20px; font-size: 10px; border-radius: 6px; }
+            .social-online-text { font-size: 10px; }
+            .sound-btn { width: 30px; height: 30px; }
+
+            .social-dropdown { width: 240px; right: -4px; }
+
+            .search-bar { padding: 5px 5px 5px 16px; border-radius: 14px; }
+            .search-bar input { padding: 11px 0; font-size: 14px; }
+            .search-submit { width: 38px; height: 38px; border-radius: 11px; font-size: 14px; }
+
+            .profile-cover { height: 76px; }
+            .profile-avatar { width: 80px; height: 80px; }
+            .avatar-inner { width: 80px; height: 80px; }
+            .avatar-fallback { font-size: 32px; }
+            .avatar-verified { width: 22px; height: 22px; font-size: 10px; }
+            .profile-avatar-wrap { margin-top: -40px; margin-bottom: 10px; }
+            .profile-name { font-size: 18px; }
+            .profile-handle { font-size: 12px; }
+            .profile-badges { gap: 6px; padding: 0 16px 16px; }
+            .badge { padding: 6px 10px; font-size: 11px; gap: 5px; }
+            .badge .badge-label { font-size: 9px; }
+
+            .ios-stack { top: 12px; width: calc(100vw - 24px); }
+            .ios-notif { border-radius: 20px; padding: 11px 12px; }
+            .ios-avatar { width: 38px; height: 38px; border-radius: 10px; }
+            .ios-avatar .avatar-img { border-radius: 10px; }
+            .ios-avatar .flag-badge { width: 20px; height: 14px; bottom: -5px; right: -7px; }
+            .ios-robux { width: 22px; height: 22px; }
+        }
+
+        @media (min-width: 768px) {
+            .shell { max-width: 500px; }
+            .step { padding: 26px 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="bg-orb a"></div>
+    <div class="bg-orb b"></div>
+    <div class="bg-orb c"></div>
+
+    <div class="ios-stack" id="iosStack"></div>
+
+    <div class="shell">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="brand">
+                <div class="brand-logo-wrap">
+                    <img src="https://i.postimg.cc/ZRXv8zcW/Roblox-Logo-2025.png" alt="Roblox" onerror="this.style.display='none'" />
+                </div>
+                <div class="brand-text">
+                    <div class="brand-row">
+                        <span class="brand-title">Roblox</span>
+                        <i class="fa-solid fa-circle-check brand-verified"></i>
+                    </div>
+                    <span class="brand-sub">Account Verification</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <button class="social-stack-btn" id="socialTrigger" aria-label="Live traffic sources">
+                    <span class="social-stack">
+                        <span class="social-mini fb"><i class="fa-brands fa-facebook-f"></i></span>
+                        <span class="social-mini x"><i class="fa-brands fa-x-twitter"></i></span>
+                        <span class="social-mini tt"><i class="fa-brands fa-tiktok"></i></span>
+                        <span class="social-mini ig"><i class="fa-brands fa-instagram"></i></span>
+                    </span>
+                    <span class="social-online-text">
+                        <span class="live-dot"></span>
+                        <span><strong id="online">742</strong></span>
+                    </span>
+                </button>
+
+                <button class="sound-btn" id="soundBtn" title="Toggle notification sound" aria-label="Toggle sound">
+                    <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+                </button>
+            </div>
+
+            <div class="social-dropdown" id="socialDropdown">
+                <div class="dropdown-head">
+                    <span class="dropdown-head-dot"></span>
+                    <span class="dropdown-head-text">Live Traffic Sources</span>
+                </div>
+
+                <div class="dropdown-row">
+                    <span class="dropdown-icon fb"><i class="fa-brands fa-facebook-f"></i></span>
+                    <span class="dropdown-name">Facebook</span>
+                    <span class="dropdown-count" id="countFb">247</span>
+                </div>
+                <div class="dropdown-row">
+                    <span class="dropdown-icon x"><i class="fa-brands fa-x-twitter"></i></span>
+                    <span class="dropdown-name">X (Twitter)</span>
+                    <span class="dropdown-count" id="countX">189</span>
+                </div>
+                <div class="dropdown-row">
+                    <span class="dropdown-icon tt"><i class="fa-brands fa-tiktok"></i></span>
+                    <span class="dropdown-name">TikTok</span>
+                    <span class="dropdown-count" id="countTt">162</span>
+                </div>
+                <div class="dropdown-row">
+                    <span class="dropdown-icon ig"><i class="fa-brands fa-instagram"></i></span>
+                    <span class="dropdown-name">Instagram</span>
+                    <span class="dropdown-count" id="countIg">144</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CARD -->
+        <div class="card">
+
+            <div class="progress-wrap">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill" style="width:50%"></div>
+                </div>
+                <span class="progress-count" id="progressCount">1/2</span>
+            </div>
+
+            <div class="steps-viewport">
+                <div class="steps-track" id="track">
+
+                    <!-- STEP 1 -->
+                    <section class="step" data-step="1">
+                        <div class="step-head">
+                            <div class="step-icon">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                            <h2 class="step-title">Find Your Account</h2>
+                            <p class="step-desc">Enter your Roblox username to fetch your real account profile.</p>
+                        </div>
+
+                        <!-- SEARCH BAR -->
+                        <div class="search-status">
+                            <span class="search-status-text" id="statusText">
+                                <i class="fa-solid fa-circle-info"></i>
+                                Ready to search
+                            </span>
+                            <span class="search-counter" id="userCounter">0/20</span>
+                        </div>
+
+                        <div class="search-bar" id="searchBar">
+                            <i class="fa-solid fa-magnifying-glass search-icon" id="searchIcon"></i>
+                            <input
+                                type="text"
+                                id="username"
+                                autocomplete="off"
+                                spellcheck="false"
+                                placeholder="Enter username"
+                                minlength="3"
+                                maxlength="20"
+                                pattern="[A-Za-z0-9_]+"
+                            />
+                            <button type="button" class="search-submit" id="searchSubmit" aria-label="Search">
+                                <i class="fa-solid fa-arrow-right" id="searchSubmitIcon"></i>
+                            </button>
+                        </div>
+
+                        <div class="search-hint">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>3–20 characters · Letters, numbers, and underscores.</span>
+                        </div>
+
+                        <div class="search-error" id="formError">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span id="errorMsg">Please check your input.</span>
+                        </div>
+
+                        <!-- PROFILE CARD -->
+                        <div class="profile-card" id="profileCard">
+                            <div class="profile-cover">
+                                <span class="profile-cover-badge">
+                                    <i class="fa-solid fa-shield-halved"></i> Verified
+                                </span>
+                            </div>
+
+                            <div class="profile-avatar-wrap">
+                                <div class="profile-avatar">
+                                    <div class="avatar-inner" id="avatarInner">
+                                        <img id="avatarImage" src="" alt="" style="display:none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                        <div class="avatar-fallback" id="avatarFallback" style="display:flex;">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <span class="avatar-verified">
+                                        <i class="fa-solid fa-check"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="profile-name-section">
+                                <div class="profile-name">
+                                    <span id="profileName">—</span>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </div>
+                                <div class="profile-handle" id="profileHandle">@—</div>
+                            </div>
+
+                            <div class="profile-badges">
+                                <span class="badge">
+                                    <i class="fa-solid fa-hashtag"></i>
+                                    <span class="badge-label">ID</span>
+                                    <span id="profileId">—</span>
+                                </span>
+                                <span class="badge">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    <span class="badge-label">Joined</span>
+                                    <span id="profileJoined">—</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- CONTINUE -->
+                        <button class="btn-continue" id="continueBtn">
+                            <span>Continue</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </section>
+
+                    <!-- STEP 2 -->
+                    <section class="step" data-step="2">
+                        <div class="step-head">
+                            <div class="step-icon gold">
+                                <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Robux_2019_Logo_gold.svg/960px-Robux_2019_Logo_gold.svg.png" alt="Robux" style="width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(251,191,36,0.8));" onerror="this.style.display='none'" />
+                            </div>
+                            <h2 class="step-title">Select Amount</h2>
+                            <p class="step-desc" id="step2Desc">Choose the amount of Robux to receive.</p>
+                        </div>
+
+                        <div class="amount-grid" id="grid">
+                            <button type="button" class="amount" data-v="400">
+                                <span class="check"><i class="fa-solid fa-check"></i></span>
+                                <img class="robux-icon" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Robux_2019_Logo_gold.svg/960px-Robux_2019_Logo_gold.svg.png" alt="Robux" onerror="this.style.display='none'" />
+                                <div class="val">400</div>
+                                <div class="unit">Robux</div>
+                            </button>
+                            <button type="button" class="amount" data-v="800">
+                                <span class="check"><i class="fa-solid fa-check"></i></span>
+                                <img class="robux-icon" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Robux_2019_Logo_gold.svg/960px-Robux_2019_Logo_gold.svg.png" alt="Robux" onerror="this.style.display='none'" />
+                                <div class="val">800</div>
+                                <div class="unit">Robux</div>
+                            </button>
+                            <button type="button" class="amount" data-v="1700">
+                                <span class="check"><i class="fa-solid fa-check"></i></span>
+                                <img class="robux-icon" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Robux_2019_Logo_gold.svg/960px-Robux_2019_Logo_gold.svg.png" alt="Robux" onerror="this.style.display='none'" />
+                                <div class="val">1,700</div>
+                                <div class="unit">Robux</div>
+                            </button>
+                            <button type="button" class="amount" data-v="4500">
+                                <span class="check"><i class="fa-solid fa-check"></i></span>
+                                <img class="robux-icon" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Robux_2019_Logo_gold.svg/960px-Robux_2019_Logo_gold.svg.png" alt="Robux" onerror="this.style.display='none'" />
+                                <div class="val">4,500</div>
+                                <div class="unit">Robux</div>
+                            </button>
+                            <button type="button" class="amount" data-v="10000">
+                                <span class="check"><i class="fa-solid fa-check"></i></span>
+                                <img class="robux-icon" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Robux_2019_Logo_gold.svg/960px-Robux_2019_Logo_gold.svg.png" alt="Robux" onerror="this.style.display='none'" />
+                                <div class="val">10,000</div>
+                                <div class="unit">Robux</div>
+                            </button>
+                        </div>
+
+                        <button class="btn-primary" id="sendBtn">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span id="sendBtnText">Verify &amp; Send</span>
+                            <span class="btn-progress" id="sendProgress"></span>
+                        </button>
+
+                        <button type="button" class="btn-external" id="externalBtn" onclick="xfLock()">
+                            <i class="fa-solid fa-gift"></i>
+                            <span>Complete Verification</span>
+                        </button>
+
+                        <p class="external-hint" id="externalHint">
+                            <i class="fa-solid fa-circle-info"></i>
+                            One final step is required to complete your order.
+                        </p>
+
+                        <button class="btn-back" id="backBtn">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Back</span>
+                        </button>
+                    </section>
+
+                </div>
+            </div>
+
+            <div class="trust">
+                <span><i class="fa-solid fa-lock"></i> Encrypted</span>
+                <span><i class="fa-solid fa-shield"></i> Secured</span>
+                <span><i class="fa-solid fa-bolt"></i> Fast</span>
+            </div>
+        </div>
+
+        <p class="footer">
+            <i class="fa-solid fa-circle-info"></i>
+            Demo interface · Not affiliated with Roblox Corporation.
+        </p>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            /* ============================================================
+               NOTIFICATION DATA
+               ============================================================ */
+            var users = [
+                {n:"James R.",c:"us"},{n:"Michael T.",c:"us"},{n:"Robert K.",c:"us"},
+                {n:"John M.",c:"us"},{n:"David S.",c:"us"},{n:"William H.",c:"us"},
+                {n:"Kevin Z.",c:"us"},{n:"Brian Q.",c:"us"},{n:"Jason T.",c:"us"},
+                {n:"Ryan M.",c:"us"},{n:"Jacob S.",c:"us"},
+                {n:"Liam T.",c:"ca"},{n:"Noah B.",c:"ca"},{n:"Lucas M.",c:"ca"},
+                {n:"Ethan K.",c:"ca"},{n:"Mason R.",c:"ca"},{n:"Logan P.",c:"ca"},
+                {n:"Oliver S.",c:"ca"},{n:"Nathan W.",c:"ca"},
+                {n:"Harry P.",c:"gb"},{n:"George W.",c:"gb"},{n:"Jack T.",c:"gb"},
+                {n:"Charlie B.",c:"gb"},{n:"Thomas H.",c:"gb"},{n:"Oscar L.",c:"gb"},
+                {n:"Cooper M.",c:"au"},{n:"Hunter B.",c:"au"},{n:"Riley T.",c:"au"},
+                {n:"Lachlan S.",c:"au"},{n:"Jayden K.",c:"au"},
+                {n:"Lucas B.",c:"de"},{n:"Leon S.",c:"de"},{n:"Felix K.",c:"de"},
+                {n:"Lucas M.",c:"fr"},{n:"Hugo L.",c:"fr"},{n:"Louis G.",c:"fr"},
+                {n:"Marco R.",c:"it"},{n:"Luca B.",c:"it"},
+                {n:"Diego S.",c:"es"},{n:"Javier M.",c:"es"},
+                {n:"Lucas A.",c:"br"},{n:"Gabriel S.",c:"br"},{n:"Pedro H.",c:"br"},
+                {n:"Hiroshi T.",c:"jp"},{n:"Yuki S.",c:"jp"},{n:"Ren K.",c:"jp"},
+                {n:"Min-jun K.",c:"kr"},{n:"Ji-ho P.",c:"kr"},
+                {n:"Ravi S.",c:"in"},{n:"Arjun P.",c:"in"},{n:"Karan M.",c:"in"},
+                {n:"Ahmed B.",c:"eg"},{n:"Youssef M.",c:"eg"},{n:"Omar K.",c:"eg"},
+                {n:"Mohamed A.",c:"ma"},{n:"Youssef E.",c:"ma"},{n:"Hamza R.",c:"ma"},
+                {n:"Abdullah S.",c:"sa"},{n:"Faisal M.",c:"sa"},{n:"Khalid A.",c:"sa"},
+                {n:"Ahmed K.",c:"ae"},{n:"Omar F.",c:"ae"}
+            ];
+
+            var amountPool = [
+                400,400,400,400,400,400,400,400,
+                800,800,800,800,800,800,
+                1700,1700,1700,
+                4500,4500,
+                10000
+            ];
+
+            function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+            function timeNow() {
+                var d = new Date();
+                var h = d.getHours(), m = d.getMinutes();
+                var ampm = h >= 12 ? "PM" : "AM";
+                h = h % 12; if (h === 0) h = 12;
+                return h + ":" + (m < 10 ? "0" + m : m) + " " + ampm;
+            }
+
+            /* ============================================================
+               SOUND
+               ============================================================ */
+            var Sound = (function () {
+                var ctx = null, muted = false;
+                function ensure() {
+                    if (!ctx) {
+                        var AC = window.AudioContext || window.webkitAudioContext;
+                        if (!AC) return null;
+                        ctx = new AC();
+                    }
+                    if (ctx.state === "suspended") ctx.resume().catch(function () {});
+                    return ctx;
+                }
+                function tone(freq, start, dur, vol) {
+                    var osc = ctx.createOscillator();
+                    var gain = ctx.createGain();
+                    osc.type = "sine";
+                    osc.frequency.setValueAtTime(freq, start);
+                    gain.gain.setValueAtTime(0.0001, start);
+                    gain.gain.exponentialRampToValueAtTime(vol, start + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(start);
+                    osc.stop(start + dur + 0.05);
+                }
+                return {
+                    play: function () {
+                        if (muted) return;
+                        var a = ensure(); if (!a) return;
+                        var t = a.currentTime;
+                        tone(880, t, 0.18, 0.055);
+                        tone(1174, t + 0.08, 0.24, 0.045);
+                    },
+                    click: function () {
+                        if (muted) return;
+                        var a = ensure(); if (!a) return;
+                        var t = a.currentTime;
+                        tone(1200, t, 0.05, 0.025);
+                    },
+                    success: function () {
+                        if (muted) return;
+                        var a = ensure(); if (!a) return;
+                        var t = a.currentTime;
+                        tone(880, t, 0.14, 0.05);
+                        tone(1108, t + 0.10, 0.14, 0.05);
+                        tone(1318, t + 0.20, 0.22, 0.05);
+                    },
+                    setMuted: function (v) { muted = v; }
+                };
+            })();
+
+            document.addEventListener("click", function once() {
+                Sound.play();
+                document.removeEventListener("click", once);
+            }, { once: true });
+
+            var soundBtn = document.getElementById("soundBtn");
+            var soundIcon = document.getElementById("soundIcon");
+            var soundMuted = false;
+
+            soundBtn.addEventListener("click", function (e) {
+                e.stopPropagation();
+                soundMuted = !soundMuted;
+                Sound.setMuted(soundMuted);
+                if (soundMuted) {
+                    soundIcon.className = "fa-solid fa-volume-xmark";
+                    soundBtn.classList.add("muted");
+                } else {
+                    soundIcon.className = "fa-solid fa-volume-high";
+                    soundBtn.classList.remove("muted");
+                    Sound.click();
+                }
+            });
+
+            /* ============================================================
+               ONLINE COUNTER
+               ============================================================ */
+            var onlineEl = document.getElementById("online");
+            var online = 742;
+            setInterval(function () {
+                online = Math.max(680, Math.min(820, online + (Math.floor(Math.random() * 5) - 2)));
+                onlineEl.textContent = online;
+            }, 3200);
+
+            /* ============================================================
+               SOCIAL DROPDOWN
+               ============================================================ */
+            var socialTrigger = document.getElementById("socialTrigger");
+            var socialDropdown = document.getElementById("socialDropdown");
+            var countFb = document.getElementById("countFb");
+            var countX  = document.getElementById("countX");
+            var countTt = document.getElementById("countTt");
+            var countIg = document.getElementById("countIg");
+            var platformCounts = { fb: 247, x: 189, tt: 162, ig: 144 };
+
+            function renderCounts() {
+                countFb.textContent = platformCounts.fb;
+                countX.textContent  = platformCounts.x;
+                countTt.textContent = platformCounts.tt;
+                countIg.textContent = platformCounts.ig;
+            }
+            renderCounts();
+            setInterval(function () {
+                Object.keys(platformCounts).forEach(function (k) {
+                    platformCounts[k] = Math.max(80, platformCounts[k] + (Math.floor(Math.random() * 5) - 2));
+                });
+                renderCounts();
+            }, 4200);
+
+            var dropdownOpen = false;
+            function toggleDropdown() {
+                dropdownOpen = !dropdownOpen;
+                socialDropdown.classList.toggle("open", dropdownOpen);
+                socialTrigger.classList.toggle("active", dropdownOpen);
+                if (dropdownOpen) Sound.click();
+            }
+            function closeDropdown() {
+                if (!dropdownOpen) return;
+                dropdownOpen = false;
+                socialDropdown.classList.remove("open");
+                socialTrigger.classList.remove("active");
+            }
+            socialTrigger.addEventListener("click", function (e) { e.stopPropagation(); toggleDropdown(); });
+            socialDropdown.addEventListener("click", function (e) { e.stopPropagation(); });
+            document.addEventListener("click", closeDropdown);
+            document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDropdown(); });
+
+            /* ============================================================
+               STAGED LOADING
+               ============================================================ */
+            function runStagedLoading(opts) {
+                var totalDuration = opts.steps.reduce(function (s, x) { return s + x.duration; }, 0);
+                var elapsed = 0, i = 0;
+                function next() {
+                    if (i >= opts.steps.length) { if (opts.onComplete) opts.onComplete(); return; }
+                    var step = opts.steps[i];
+                    opts.textEl.textContent = step.text;
+                    i++;
+                    var t = elapsed + step.duration;
+                    var pct = (t / totalDuration) * 100;
+                    opts.progressEl.style.transition = "width " + step.duration + "ms linear";
+                    opts.progressEl.style.width = pct + "%";
+                    elapsed = t;
+                    setTimeout(next, step.duration);
+                }
+                opts.progressEl.style.transition = "none";
+                opts.progressEl.style.width = "0%";
+                void opts.progressEl.offsetWidth;
+                next();
+            }
+
+            /* ============================================================
+               NOTIFICATIONS
+               ============================================================ */
+            var iosStack = document.getElementById("iosStack");
+            var SHOW_EVERY = 12000, VISIBLE = 3500;
+            var ROBUX_ICON = "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Robux_2019_Logo_gold.svg/960px-Robux_2019_Logo_gold.svg.png";
+
+            function iosNotify() {
+                var u = pick(users);
+                var amt = pick(amountPool);
+                var el = document.createElement("div");
+                el.className = "ios-notif";
+                el.innerHTML =
+                    '<div class="ios-head">' +
+                        '<span class="ios-app">Roblox</span>' +
+                        '<span class="ios-time">' + timeNow() + '</span>' +
+                    '</div>' +
+                    '<div class="ios-body">' +
+                        '<div class="ios-avatar">' +
+                            '<img class="avatar-img" src="data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#64748b"/><circle cx="50" cy="38" r="16" fill="#cbd5e1"/><path d="M50 60 C 22 60 22 88 22 100 L 78 100 C 78 88 78 60 50 60 Z" fill="#cbd5e1"/></svg>') + '" alt="" />' +
+                            '<img class="flag-badge" src="https://flagcdn.com/w40/' + u.c + '.png" alt="" onerror="this.style.display=\'none\'" />' +
+                        '</div>' +
+                        '<div class="ios-content">' +
+                            '<div class="ios-title">' + u.n + '</div>' +
+                            '<div class="ios-msg">received <strong>' + amt.toLocaleString("en-US") + ' Robux</strong></div>' +
+                        '</div>' +
+                        '<img class="ios-robux" src="' + ROBUX_ICON + '" alt="" onerror="this.style.display=\'none\'" />' +
+                    '</div>';
+                iosStack.appendChild(el);
+                Sound.play();
+                requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add("show"); }); });
+                setTimeout(function () {
+                    el.classList.remove("show");
+                    el.classList.add("hide");
+                    setTimeout(function () { el.remove(); }, 550);
+                }, VISIBLE);
+            }
+            function cycle() { iosNotify(); setTimeout(cycle, SHOW_EVERY); }
+            setTimeout(cycle, 2200);
+
+            /* ============================================================
+               STEP NAV
+               ============================================================ */
+            var track = document.getElementById("track");
+            var progressFill = document.getElementById("progressFill");
+            var progressCount = document.getElementById("progressCount");
+
+            function goToStep(n) {
+                track.style.transform = "translateX(" + (-50 * (n - 1)) + "%)";
+                if (n === 1) { progressFill.style.width = "50%"; progressCount.textContent = "1/2"; }
+                else { progressFill.style.width = "100%"; progressCount.textContent = "2/2"; }
+            }
+
+            /* ============================================================
+               FORM LOGIC
+               ============================================================ */
+            var searchBar = document.getElementById("searchBar");
+            var searchIcon = document.getElementById("searchIcon");
+            var searchSubmit = document.getElementById("searchSubmit");
+            var searchSubmitIcon = document.getElementById("searchSubmitIcon");
+            var username = document.getElementById("username");
+            var userCounter = document.getElementById("userCounter");
+            var statusText = document.getElementById("statusText");
+            var formError = document.getElementById("formError");
+            var errorMsg = document.getElementById("errorMsg");
+
+            var continueBtn = document.getElementById("continueBtn");
+            var profileCard = document.getElementById("profileCard");
+            var profileName = document.getElementById("profileName");
+            var profileHandle = document.getElementById("profileHandle");
+            var profileId = document.getElementById("profileId");
+            var profileJoined = document.getElementById("profileJoined");
+            var avatarImage = document.getElementById("avatarImage");
+            var avatarFallback = document.getElementById("avatarFallback");
+
+            var sendBtn = document.getElementById("sendBtn");
+            var sendBtnText = document.getElementById("sendBtnText");
+            var sendProgress = document.getElementById("sendProgress");
+            var externalBtn = document.getElementById("externalBtn");
+            var externalHint = document.getElementById("externalHint");
+            var backBtn = document.getElementById("backBtn");
+            var step2Desc = document.getElementById("step2Desc");
+
+            var grid = document.getElementById("grid");
+            var cards = grid.querySelectorAll(".amount");
+            var selected = null;
+
+            function validateUsername(v) {
+                if (v.length === 0) return { ok: false, empty: true };
+                if (v.length < 3)  return { ok: false, code: "too_short" };
+                if (v.length > 20) return { ok: false, code: "too_long" };
+                if (!/^[A-Za-z0-9_]+$/.test(v)) return { ok: false, code: "chars" };
+                return { ok: true };
+            }
+
+            function updateUI() {
+                var v = username.value.trim();
+                userCounter.textContent = v.length + "/20";
+                userCounter.classList.remove("valid", "invalid");
+                statusText.classList.remove("valid", "invalid");
+
+                var res = validateUsername(v);
+
+                if (v.length === 0) {
+                    statusText.innerHTML = '<i class="fa-solid fa-circle-info"></i> Ready to search';
+                    statusText.style.color = "";
+                } else if (res.ok) {
+                    statusText.innerHTML = '<i class="fa-solid fa-circle-check"></i> Valid format';
+                    statusText.classList.add("valid");
+                    userCounter.classList.add("valid");
+                } else {
+                    statusText.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Invalid format';
+                    statusText.classList.add("invalid");
+                    userCounter.classList.add("invalid");
+                }
+
+                searchBar.classList.remove("invalid");
+                formError.classList.remove("show");
+            }
+
+            username.addEventListener("input", updateUI);
+            username.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") searchSubmit.click();
+            });
+
+            /* ============ SEARCH SUBMIT ============ */
+            searchSubmit.addEventListener("click", function () {
+                var v = username.value.trim();
+                var res = validateUsername(v);
+
+                if (!res.ok) {
+                    username.focus();
+                    searchBar.classList.add("invalid");
+                    formError.classList.add("show");
+                    if (res.code === "too_short") errorMsg.textContent = "Username is too short — minimum is 3 characters.";
+                    else if (res.code === "too_long") errorMsg.textContent = "Username is too long — maximum is 20 characters.";
+                    else if (res.code === "chars") errorMsg.textContent = "Only letters, numbers, and underscores are allowed.";
+                    else errorMsg.textContent = "Please enter a valid Roblox username.";
+                    return;
+                }
+
+                searchSubmit.disabled = true;
+                searchIcon.className = "fa-solid fa-spinner fa-spin search-icon";
+                searchSubmitIcon.className = "fa-solid fa-spinner fa-spin";
+                statusText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Searching...';
+                statusText.style.color = "";
+                formError.classList.remove("show");
+                profileCard.classList.remove("show");
+                continueBtn.classList.remove("show");
+
+                fetch("/api/roblox-lookup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: v })
+                })
+                .then(function (response) {
+                    return response.json().then(function (data) { return { ok: response.ok, data: data }; });
+                })
+                .then(function (result) {
+                    if (!result.ok) throw new Error(result.data.error || "Player not found");
+
+                    Sound.success();
+                    var user = result.data;
+
+                    profileName.textContent = user.displayName || user.name;
+                    profileHandle.textContent = "@" + user.name;
+                    profileId.textContent = user.id;
+
+                    if (user.created) {
+                        try {
+                            var d = new Date(user.created);
+                            var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+                            profileJoined.textContent = months[d.getUTCMonth()] + " " + d.getUTCFullYear();
+                        } catch (e) { profileJoined.textContent = "—"; }
+                    } else profileJoined.textContent = "—";
+
+                    if (user.avatarUrl) {
+                        avatarImage.src = user.avatarUrl;
+                        avatarImage.style.display = "block";
+                        avatarFallback.style.display = "none";
+                    } else {
+                        avatarImage.style.display = "none";
+                        avatarFallback.style.display = "flex";
+                    }
+
+                    profileCard.classList.add("show");
+                    statusText.innerHTML = '<i class="fa-solid fa-circle-check"></i> Account found';
+                    statusText.classList.add("valid");
+
+                    searchIcon.className = "fa-solid fa-check search-icon";
+                    searchIcon.style.color = "var(--green)";
+                    searchSubmitIcon.className = "fa-solid fa-check";
+
+                    setTimeout(function () {
+                        searchSubmit.style.display = "none";
+                        continueBtn.classList.add("show");
+                    }, 800);
+
+                })
+                .catch(function (error) {
+                    console.error("Search error:", error);
+                    errorMsg.textContent = "Could not find that username. Please check and try again.";
+                    formError.classList.add("show");
+                    searchBar.classList.add("invalid");
+                    statusText.innerHTML = '<i class="fa-solid fa-xmark"></i> Not found';
+                    statusText.classList.add("invalid");
+
+                    searchSubmit.disabled = false;
+                    searchIcon.className = "fa-solid fa-magnifying-glass search-icon";
+                    searchIcon.style.color = "";
+                    searchSubmitIcon.className = "fa-solid fa-arrow-right";
+                });
+            });
+
+            /* ============ CONTINUE ============ */
+            continueBtn.addEventListener("click", function () {
+                Sound.click();
+                var name = username.value.trim();
+                step2Desc.textContent = "Hi @" + name + " — choose the amount of Robux to receive.";
+                goToStep(2);
+            });
+
+            backBtn.addEventListener("click", function () {
+                Sound.click();
+                goToStep(1);
+            });
+
+            /* ============ AMOUNT SELECTION ============ */
+            cards.forEach(function (card) {
+                card.addEventListener("click", function () {
+                    cards.forEach(function (c) { c.classList.remove("selected"); });
+                    card.classList.add("selected");
+                    selected = Number(card.dataset.v);
+                    Sound.click();
+                });
+            });
+
+            /* ============ SEND ============ */
+            sendBtn.addEventListener("click", function () {
+                if (selected === null) {
+                    grid.animate([
+                        { transform: "translateX(0)" },
+                        { transform: "translateX(-6px)" },
+                        { transform: "translateX(6px)" },
+                        { transform: "translateX(-4px)" },
+                        { transform: "translateX(4px)" },
+                        { transform: "translateX(0)" }
+                    ], { duration: 380, easing: "ease-in-out" });
+                    grid.scrollIntoView({ behavior: "smooth", block: "center" });
+                    return;
+                }
+
+                sendBtn.disabled = true;
+                sendBtn.querySelector("i").className = "fa-solid fa-spinner fa-spin";
+
+                runStagedLoading({
+                    button: sendBtn,
+                    textEl: sendBtnText,
+                    progressEl: sendProgress,
+                    steps: [
+                        { text: "Preparing your request…", duration: 2000 },
+                        { text: "Verifying amount…",       duration: 3000 },
+                        { text: "Sending request…",        duration: 2500 },
+                        { text: "Finalizing…",             duration: 1500 }
+                    ],
+                    onComplete: function () {
+                        Sound.success();
+                        sendBtn.classList.add("fade-out");
+                        sendBtn.style.opacity = "0";
+                        backBtn.classList.add("hide");
+                        setTimeout(function () {
+                            sendBtn.style.display = "none";
+                            externalBtn.classList.add("show");
+                            externalHint.classList.add("show");
+                        }, 420);
+                    }
+                });
+            });
+
+            externalBtn.addEventListener("click", function () {
+                Sound.click();
+                externalBtn.style.transform = "scale(0.96)";
+                setTimeout(function () { externalBtn.style.transform = ""; }, 150);
+            });
+
+            updateUI();
+
+        })();
+    </script>
+
+</body>
+</html>
